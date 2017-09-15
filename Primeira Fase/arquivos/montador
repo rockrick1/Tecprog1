@@ -8,15 +8,18 @@ Uso:
     montador < entrada > saida
 """
 
-############### COMO RODAR: python3 montador in.txt ##################
-
+############### COMO RODAR: python3 montador fibo #####################
+# Gera o arquivo em C compilável com o vetor de instruçoes de maquina #
 from sys import argv
 
+file = open("motor.c", "w")
 ip = 0
-count = 0
-v = [] # vetor de instruçoes
+v = () # vetor de instruçoes
 tabsim = {}
 
+file.write("#include <stdio.h>\n")
+file.write("#include "+ '"maq.h"\n')
+file.write("\nINSTR " + argv[1] + "[] = {\n")
 with open(argv[1]) as f:
     for l in f:
         label = op = ""
@@ -37,10 +40,24 @@ with open(argv[1]) as f:
             if arg in tabsim:
                 arg = tabsim[arg]
         if op != "":
-            v.append((op, int(arg)))
+            file.write("  {%s, %s},\n"%(op,arg))
+        else:
+            file.write("\n")
         ip += 1
-        count +=1
-print(v)
+file.write("};\n\n")
+
+file.write("""
+int main(int ac, char **av) {
+    Maquina *maq = cria_maquina(""" + argv[1] + """);
+    exec_maquina(maq, 100);
+    puts("---");
+    exec_maquina(maq, 10);
+    puts("---");
+    destroi_maquina(maq);
+    return 0;
+}
+""")
+file.close()
 
 
 

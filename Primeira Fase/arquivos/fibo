@@ -1,5 +1,5 @@
           PUSH  1
-          STO   0 # x 
+          STO   0 # x
           STO   1 # y
 
           PUSH 10
@@ -11,13 +11,13 @@
           STO   0 # x' = y
           ADD     # x+y
           DUP
-          STO   1 #y = x+y 
+          STO   1 #y = x+y
           PRN
           RCL   2
           PUSH  1
           SUB     #i-1
           DUP
-          STO   2  # i = i-1 
+          STO   2  # i = i-1
           PUSH  0
           EQ       # i == 0?
           JIF  LOOP
