@@ -59,6 +59,7 @@ void destroi_maquina(Maquina *m) {
 
 /* Alguns macros para facilitar a leitura do código */
 #define ip (m->ip)
+#define bp (m->bp)
 #define pil (&m->pil)
 #define exec (&m->exec)
 #define prg (m->prog)
@@ -163,6 +164,10 @@ void exec_maquina(Maquina *m, int n) {
 	case RCL:
 	  empilha(pil,m->Mem[arg]);
 	  break;
+    /* Glorioso RCE
+    case RCE:
+      empilha(exec,m->Mem[arg + bp])
+      break;*/
 	case END:
 	  return;
 	case PRN:

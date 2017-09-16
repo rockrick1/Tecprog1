@@ -18,7 +18,7 @@ v = () # vetor de instruçoes
 tabsim = {}
 
 file.write("#include <stdio.h>\n")
-file.write("#include "+ '"maq.h"\n')
+file.write("#include " + '"maq.h"\n\n')
 file.write("\nINSTR " + argv[1] + "[] = {\n")
 with open(argv[1]) as f:
     for l in f:
@@ -42,7 +42,9 @@ with open(argv[1]) as f:
         if op != "":
             file.write("  {%s, %s},\n"%(op,arg))
         else:
-            file.write("\n")
+            # nao pode atualizar o ip senao, se tiverem linhas em
+            # branco, os endereços das labels saem errados
+            ip -= 1
         ip += 1
 file.write("};\n\n")
 
@@ -50,13 +52,9 @@ file.write("""
 int main(int ac, char **av) {
     Maquina *maq = cria_maquina(""" + argv[1] + """);
     exec_maquina(maq, 100);
-    puts("---");
-    exec_maquina(maq, 10);
-    puts("---");
     destroi_maquina(maq);
     return 0;
-}
-""")
+}""")
 file.close()
 
 

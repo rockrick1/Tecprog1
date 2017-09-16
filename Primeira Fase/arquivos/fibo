@@ -1,10 +1,18 @@
           PUSH  1
+          DUP   0
+
           STO   0 # x
           STO   1 # y
-
           PUSH 10
           STO   2  # i
 
+
+
+
+
+
+
+          
   LOOP:   RCL   0
           RCL   1
           DUP

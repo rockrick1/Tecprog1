@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include "maq.h"
 
+
 INSTR fibo[] = {
   {PUSH, 1},
+  {DUP, 0},
   {STO, 0},
   {STO, 1},
-
   {PUSH, 10},
   {STO, 2},
-
   {RCL, 0},
   {RCL, 1},
   {DUP, 0},
@@ -24,8 +24,7 @@ INSTR fibo[] = {
   {STO, 2},
   {PUSH, 0},
   {EQ, 0},
-  {JIF, 7},
-
+  {JIF, 6},
   {END, 0},
 };
 
@@ -33,9 +32,6 @@ INSTR fibo[] = {
 int main(int ac, char **av) {
     Maquina *maq = cria_maquina(fibo);
     exec_maquina(maq, 100);
-    puts("---");
-    exec_maquina(maq, 10);
-    puts("---");
     destroi_maquina(maq);
     return 0;
 }
