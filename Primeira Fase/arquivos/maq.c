@@ -165,7 +165,7 @@ void exec_maquina(Maquina *m, int n) {
 	  m->Mem[arg] = desempilha(pil);
 	  break;
     case STL:
-      exec->val[bp + arg] = desempilha(pil));
+      exec->val[bp + arg] = desempilha(pil);
       break;
 	case RCL:
 	  empilha(pil,m->Mem[arg]);
