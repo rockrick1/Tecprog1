@@ -21,7 +21,13 @@ typedef enum {
   LE,
   NE,
   STO,
+  STL,
   RCL,
+  RCE,
+  ALC,
+  FRE,
+  SAVE,
+  REST,
   END,
   PRN,
 } OpCode;

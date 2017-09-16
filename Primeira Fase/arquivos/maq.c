@@ -49,6 +49,7 @@ Maquina *cria_maquina(INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip = 0;
+  m->bp = 0;
   m->prog = p;
   return m;
 }
@@ -65,7 +66,7 @@ void destroi_maquina(Maquina *m) {
 #define prg (m->prog)
 
 void exec_maquina(Maquina *m, int n) {
-  int i;
+  int i, j;
 
   for (i = 0; i < n; i++) {
 	OpCode   opc = prg[ip].instr;
@@ -120,7 +121,9 @@ void exec_maquina(Maquina *m, int n) {
 	  ip = arg;
 	  continue;
 	case RET:
-	  ip = desempilha(exec);
+      /* IP de retorno esta em cima na pilha, entao desempilha primeiro */
+      ip = desempilha(exec);
+      bp = desempilha(exec);
 	  break;
 	case EQ:
 	  if (desempilha(pil) == desempilha(pil))
@@ -161,13 +164,27 @@ void exec_maquina(Maquina *m, int n) {
 	case STO:
 	  m->Mem[arg] = desempilha(pil);
 	  break;
+    case STL:
+      exec->val[bp + arg] = desempilha(pil));
+      break;
 	case RCL:
 	  empilha(pil,m->Mem[arg]);
 	  break;
-    /* Glorioso RCE
     case RCE:
-      empilha(exec,m->Mem[arg + bp])
-      break;*/
+      empilha(pil, exec->val[bp + arg]);
+      break;
+    /* ???
+    case ALC:
+      for (j = arg; j > 0; j--){
+          exec->val[ip + j + arg] = exec->val[ip + j];
+      }
+      break; Altas chances de isso estar errado xdxd */
+    case SAVE:
+      empilha(exec, bp);
+      bp = ip + 1;
+      break;
+    case REST:
+      bp = 0;
 	case END:
 	  return;
 	case PRN:
