@@ -26,8 +26,6 @@ typedef enum {
   RCE,
   ALC,
   FRE,
-  SAVE,
-  REST,
   END,
   PRN,
 } OpCode;

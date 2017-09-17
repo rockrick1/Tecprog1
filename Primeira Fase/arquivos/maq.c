@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "maq.h"
 
-/* #define DEBUG */
+// #define DEBUG
 
 #ifdef DEBUG
 #  define D(X) X
@@ -28,7 +28,11 @@ char *CODES[] = {
   "LE",
   "NE",
   "STO",
+  "STL",
   "RCL",
+  "RCE",
+  "ALC",
+  "FRE",
   "END",
   "PRN"
 };
@@ -118,12 +122,13 @@ void exec_maquina(Maquina *m, int n) {
 	  break;
 	case CALL:
 	  empilha(exec, ip);
+      empilha(exec, bp);
+      bp = exec->topo - 1;
 	  ip = arg;
 	  continue;
 	case RET:
-      /* IP de retorno esta em cima na pilha, entao desempilha primeiro */
-      ip = desempilha(exec);
       bp = desempilha(exec);
+      ip = desempilha(exec);
 	  break;
 	case EQ:
 	  if (desempilha(pil) == desempilha(pil))
@@ -173,25 +178,22 @@ void exec_maquina(Maquina *m, int n) {
     case RCE:
       empilha(pil, exec->val[bp + arg]);
       break;
-    /* ???
     case ALC:
-      for (j = arg; j > 0; j--){
-          exec->val[ip + j + arg] = exec->val[ip + j];
-      }
-      break; Altas chances de isso estar errado xdxd */
-    case SAVE:
-      empilha(exec, bp);
-      bp = ip + 1;
+      exec->topo += arg;
       break;
-    case REST:
-      bp = 0;
+    case FRE:
+      exec->topo -= arg;
+      break;
 	case END:
 	  return;
 	case PRN:
 	  printf("%d\n", desempilha(pil));
 	  break;
 	}
-	D(imprime(pil,5));
+    D(printf("pil: "));
+	D(imprime(pil, 100));
+    D(printf("\nexec: "));
+    D(imprime(exec, 100));
 	D(puts("\n"));
 
 	ip++;
