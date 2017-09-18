@@ -8,8 +8,6 @@ Uso:
     montador < entrada > saida
 """
 
-############### COMO RODAR: python3 montador fibo #####################
-# Gera o arquivo em C compilável com o vetor de instruçoes de maquina #
 from sys import argv
 
 file = open("motor.c", "w")
