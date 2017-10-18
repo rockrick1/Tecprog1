@@ -19,8 +19,6 @@ char *CODES[] = {
   "JIF",
   "CALL",
   "RET",
-  "STS",
-  "RCS",
   "EQ",
   "GT",
   "GE",
@@ -64,13 +62,16 @@ void destroi_maquina(Maquina *m) {
 
 /* Alguns macros para facilitar a leitura do código */
 #define ip (m->ip)
+/* Novo registrador de base,
+// usado para definir os frames */
 #define bp (m->bp)
+
 #define pil (&m->pil)
 #define exec (&m->exec)
 #define prg (m->prog)
 
 void exec_maquina(Maquina *m, int n) {
-  int i, j;
+  int i;
 
   for (i = 0; i < n; i++) {
 	OpCode   opc = prg[ip].instr;
@@ -120,12 +121,24 @@ void exec_maquina(Maquina *m, int n) {
 		continue;
 	  }
 	  break;
+	/***********************************************************
+	* Decidimos não implementar as funções REST e SAVE pois
+	* era possível alterar CALL e RET para fazer o trabalho
+	* das duas primeiras, e consequentemente não ter que chamar
+	* duas funções extrar em toda chamada de subrotina
+	************************************************************/
+
+	/* CALL agora salva o bp atual na pilha de execução
+	// e atualiza-o com o valor do topo dela - 1, assim
+	// o novo bp é a posição que o ultimo bp esta guardado */
 	case CALL:
 	  empilha(exec, ip);
       empilha(exec, bp);
       bp = exec->topo - 1;
 	  ip = arg;
 	  continue;
+	/* RET simplesmente desempilha também o bp que estava
+	// sendo guardado */
 	case RET:
       bp = desempilha(exec);
       ip = desempilha(exec);
@@ -169,18 +182,28 @@ void exec_maquina(Maquina *m, int n) {
 	case STO:
 	  m->Mem[arg] = desempilha(pil);
 	  break;
+	/* STL guarda o valor do topo da pilha de dados na
+	// posição dada por bp atual + arg da pilha de execução
+	// (precisa alocar o frame com ALC antes!) */
     case STL:
       exec->val[bp + arg] = desempilha(pil);
       break;
 	case RCL:
 	  empilha(pil,m->Mem[arg]);
 	  break;
+	/* RCE é basicamente o contrario do STL, ele guarda
+	// a variavel loval de volta na pilha de dados, mas nao
+	// tira ela da pilha de execução. Quem fará isso é o FRE */
     case RCE:
       empilha(pil, exec->val[bp + arg]);
       break;
+    /* ALC serivrá para alocar um espaço extra na pilha de
+    // execução, simplesmente alterando o topo */
     case ALC:
       exec->topo += arg;
       break;
+    /* FRE naturalmente faz o contrario do ALC, subtraindo
+    // do topo da pilha de execução */
     case FRE:
       exec->topo -= arg;
       break;
