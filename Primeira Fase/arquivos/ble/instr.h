@@ -12,6 +12,8 @@ typedef enum {
   JIF,
   CALL,
   RET,
+  STS,
+  RCS,
   EQ,
   GT,
   GE,
@@ -19,15 +21,11 @@ typedef enum {
   LE,
   NE,
   STO,
-  STL,
   RCL,
-  RCE,
-  ALC,
-  FRE,
   END,
   PRN,
   ATR,
-  STS
+  SIS							/* chamada de sistema */
 } OpCode;
 
 /* Tipos dos operandos */
@@ -46,6 +44,7 @@ typedef enum {
   BASE
 } Terreno;
 
+
 /* Célula */
 typedef struct {
   Terreno terreno;
@@ -53,6 +52,11 @@ typedef struct {
   short int ocupado;
 } Celula;
 
+/* Alternativamente, Celula pode ser implementada como um vetor de ints
+   ou short ints, isso torna a implementação de ATR mais fácil */
+
+/* No caso da ação, o tipo do operando é um inteiro indicando a direção,
+   mas fique livre para fazer de forma diferente */
 
 /* Operando */
 typedef struct {
@@ -60,8 +64,8 @@ typedef struct {
   union {
 	int n;
 	int ac;
-    int v;
-	Celula cell;
+	int v;
+	Celula cel;
   } val;
 } OPERANDO;
 

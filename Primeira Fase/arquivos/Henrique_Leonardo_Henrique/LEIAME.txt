@@ -1,0 +1,22 @@
+////////////////////////////////////////////////////////////////////////
+// Nome: Leonardo Ikeda									NUSP: 10262822//
+// Nome: Henrique Cerquinho								NUSP: 9793700///
+// Nome: Henrique Suzuki								NUSP: 10297626//
+////////////////////////// COMPILAÇÃO //////////////////////////////////
+
+    Para rodar a maquina virtual, temos duas opções:
+
+    Rodar o montador em python3 dando como argumento o nome do
+arquivo com código em linguagem de maquina, em seguida rodar
+make e finalmente ./motor
+
+    Rodar o script run: mudar a permissão de execução com
+chmod +x ./script.sh e em seguida rodá-lo com ./run.sh e o nome
+do arquivo em linguagem de máquina como argumento
+
+    Caso não queira rodar o comando make na primeira opção, basta
+compilar com o comando:
+
+gcc -pedantic -O2 motor.c maq.c maq.h pilha.c pilha.h instr.h -o motor
+
+e rodar ./motor

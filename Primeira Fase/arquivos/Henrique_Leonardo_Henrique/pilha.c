@@ -32,8 +32,7 @@ void empilha(Pilha *p, OPERANDO op) {
 OPERANDO desempilha(Pilha *p) {
   if (p->topo > 0)
 	return p->val[--p->topo];
-  else
-    Erro("Pilha vazia");
+  else Erro("Pilha vazia");
 }
 
 void imprime(Pilha *p, int n) {
@@ -41,7 +40,7 @@ void imprime(Pilha *p, int n) {
   int i;
   printf("[");
   for (i = t; i >= 0 && i > p->topo-n; i--)
-	printf("%4d, ", p->val[i].val.n);
+	printf("%4d, ", p->val[i]);
   printf("]");
   return;
 }
