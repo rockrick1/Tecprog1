@@ -2,6 +2,7 @@
 
 #define MAXMEM 100
 
+/* Çada máquina é um robô no campo de batalha */
 typedef struct {
   Pilha pil;
   Pilha exec;
@@ -9,8 +10,8 @@ typedef struct {
   INSTR *prog;
   int ip;
   int bp;
-  int pos[2];
-  int cristais;
+  int pos[2]; /* Coordenadas da posão do robô */
+  int cristais; /* Quantidade de cristais carregados pelo robô */
 } Maquina;
 
 Maquina *cria_maquina(INSTR *p);

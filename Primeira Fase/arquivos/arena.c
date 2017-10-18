@@ -11,6 +11,55 @@ Celula **criaArena(int m, int n) {
     return arena;
 }
 
+axial cube_to_axial(cube c) {
+	axial a;
+	a.q = c.x;
+	a.r = c.z;
+	return a;
+}
+
+cube axial_to_cube(axial a) {
+	cube c;
+	c.x = a.q;
+	c.z = a.r;
+	c.y = -c.x-c.z;
+	return c;
+}
+
+/* dir: 0
+      5   1
+      4   2
+        3
+*/
+axial move(axial a, int dir) {
+	cube c = axial_to_cube(a);
+	if (dir == 0) {
+			c.y++;
+			c.z--;
+	}
+	if (dir == 1) {
+			c.x++;
+			c.z--;
+	}
+	if (dir == 2) {
+			c.x++;
+			c.y--;
+	}
+	if (dir == 3) {
+			c.y--;
+			c.z++;
+	}
+	if (dir == 4) {
+			c.x--;
+			c.z++;
+	}
+	if (dir == 5) {
+			c.x--;
+			c.y++;
+	}
+	return cube_to_axial(c);
+}
+
 void destroiArena(Celula **arena, int m) {
     int i;
     for (i = 0; i < m; i++)
