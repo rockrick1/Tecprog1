@@ -58,8 +58,8 @@ Maquina *cria_maquina(INSTR *p) {
 	return m;
 }
 
-/* Funções para impressão de tipos e terrenos */
 /**********************************************/
+/* Retorna o tipo em string para impressão */
 const char *getTipo(Tipo tipo) {
 	switch (tipo) {
 		case NUM: return "NUM";
@@ -68,12 +68,13 @@ const char *getTipo(Tipo tipo) {
 		case CELULA: return "CELULA";
 	}
 }
-const char *getTerreno(Terreno terr) {
+/* Retorna o int correspondente de cada terreno */
+const int getTerreno(Terreno terr) {
 	switch (terr) {
-		case ESTRADA: return "ESTRADA";
-		case MONTANHA: return "MONTANHA";
-		case RIO: return "RIO";
-		case BASE: return "BASE";
+		case ESTRADA: return 0;
+		case MONTANHA: return 1;
+		case RIO: return 2;
+		case BASE: return 3;
 	}
 }
 /**********************************************/
@@ -314,23 +315,21 @@ void exec_maquina(Maquina *m, int n) {
 			/* ATR desempilhará o operando e guardará o seu atributo */
 			case ATR:
 				tmp = desempilha(pil);
-				if (arg.val.n == 0) {
-					res.t = NUM;
-					res.val.n = tmp.val.n;
+				if (tmp.t == CELULA) {
+					if (arg.val.n == 0) { /* Pediu o terreno */
+						res.t = NUM;
+						res.val.n = getTerreno(tmp.val.cell.terreno);
+					}
+					else if (arg.val.n == 1) { /* Pediu o numero de cristais */
+						res.t = ACAO;
+						res.val.n = tmp.val.cell.cristais;
+					}
+					else if (arg.val.n == 2) { /* Pediu se está ocupado ou nao */
+						res.t = VAR;
+						res.val.n = tmp.val.cell.ocupado;
+					}
+					empilha(pil, res);
 				}
-				else if (arg.val.n == 1) {
-					res.t = ACAO;
-					res.val.ac = tmp.val.ac;
-				}
-				else if (arg.val.n == 2) {
-					res.t = VAR;
-					res.val.v = tmp.val.v;
-				}
-				else { /* arg = 3 */
-					res.t = CELULA;
-					res.val.cell = tmp.val.cell;
-				}
-				empilha(pil, res);
 				break;
 		}
 		D(printf("pil: "));

@@ -34,28 +34,28 @@ cube axial_to_cube(axial a) {
 axial move(axial a, int dir) {
 	cube c = axial_to_cube(a);
 	if (dir == 0) {
-			c.y++;
-			c.z--;
+		c.y++;
+		c.z--;
 	}
-	if (dir == 1) {
-			c.x++;
-			c.z--;
+	else if (dir == 1) {
+		c.x++;
+		c.z--;
 	}
-	if (dir == 2) {
-			c.x++;
-			c.y--;
+	else if (dir == 2) {
+		c.x++;
+		c.y--;
 	}
-	if (dir == 3) {
-			c.y--;
-			c.z++;
+	else if (dir == 3) {
+		c.y--;
+		c.z++;
 	}
-	if (dir == 4) {
-			c.x--;
-			c.z++;
+	else if (dir == 4) {
+		c.x--;
+		c.z++;
 	}
-	if (dir == 5) {
-			c.x--;
-			c.y++;
+	else { /* dir == 5 */
+		c.x--;
+		c.y++;
 	}
 	return cube_to_axial(c);
 }
