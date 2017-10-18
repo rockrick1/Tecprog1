@@ -38,7 +38,7 @@ with open(argv[1]) as f:
             if arg in tabsim:
                 arg = tabsim[arg]
         if op != "":
-            file.write("  {%s, %s},\n"%(op,arg))
+            file.write("\t{%s, %s},\n"%(op,arg))
         else:
             # nao pode atualizar o ip senao, se tiverem linhas em
             # branco, os endereços das labels saem errados

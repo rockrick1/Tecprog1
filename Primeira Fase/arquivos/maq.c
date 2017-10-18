@@ -312,11 +312,12 @@ void exec_maquina(Maquina *m, int n) {
 				tmp = desempilha(pil);
 				printf("[%s, %d]\n", getTipo(tmp.t), tmp.val.n);
 				break;
-			/* ATR desempilhará o operando e guardará o seu atributo */
+			/* ATR desempilhará o operando e guardará o atributo definido por
+			// arg, caso esse oprando seja um célula */
 			case ATR:
 				tmp = desempilha(pil);
 				if (tmp.t == CELULA) {
-					if (arg.val.n == 0) { /* Pediu o terreno */
+					if (arg.val.n == 0) { /* Pediu o tipo de terreno */
 						res.t = NUM;
 						res.val.n = getTerreno(tmp.val.cell.terreno);
 					}

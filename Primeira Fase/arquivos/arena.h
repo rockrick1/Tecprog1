@@ -1,14 +1,31 @@
 #include "instr.h"
 
+#define MAX_EXERCITOS 10
+#define MAX_ROBOS 100
+
+/*********************** STRUCTS ************************/
+
 typedef struct {
 	int x, y, z;
 } cube;
 
 typedef struct {
-	int q, r;
+	int r, q;
 } axial;
 
-Celula **criaArena(int m, int n);
+typedef struct {
+	int x, y;
+} Pos;
+
+typedef struct {
+	int *ativos; /* Exercitos ativos no jogo */
+	Pos **robos; /* Matriz de robos ativos, onde o primeiro indicie é o id do exercito */
+	Celula **mapa; /* Matriz de Celulas que define o mapa */
+} Arena;
+
+/*********************** FUNÇÕES ************************/
+
+Arena *criaArena(int m, int n);
 
 /* Converte coordenada cubica para axial */
 axial cube_to_axial(cube c);
@@ -22,6 +39,12 @@ cube axial_to_cube(axial a);
       4   2
         3
 */
-axial move(axial a, int dir);
+axial move(axial a, int dir, int m, int n);
 
-void destroiArena(Celula **arena, int m);
+/* Insere uma base do com id do exercito na posição (m,n) do mapa */
+void insereExercito(Arena *arena, int exercito, int m, int n);
+
+/* Remove todos os robôs desse exercito do mapa */
+void removeExercito(Arena *arena, int exercito, int num_robos);
+
+void destroiArena(Arena *arena, int m);

@@ -10,6 +10,7 @@ typedef struct {
   INSTR *prog;
   int ip;
   int bp;
+  int exercito;
   int pos[2]; /* Coordenadas da posão do robô */
   int cristais; /* Quantidade de cristais carregados pelo robô */
 } Maquina;
