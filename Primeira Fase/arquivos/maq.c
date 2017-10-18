@@ -58,6 +58,26 @@ Maquina *cria_maquina(INSTR *p) {
 	return m;
 }
 
+/* Funções para impressão de tipos e terrenos */
+/**********************************************/
+const char *getTipo(Tipo tipo) {
+	switch (tipo) {
+		case NUM: return "NUM";
+		case ACAO: return "ACAO";
+		case VAR: return "VAR";
+		case CELULA: return "CELULA";
+	}
+}
+const char *getTerreno(Terreno terr) {
+	switch (terr) {
+		case ESTRADA: return "ESTRADA";
+		case MONTANHA: return "MONTANHA";
+		case RIO: return "RIO";
+		case BASE: return "BASE";
+	}
+}
+/**********************************************/
+
 void destroi_maquina(Maquina *m) {
 	free(m);
 }
@@ -189,6 +209,7 @@ void exec_maquina(Maquina *m, int n) {
 			op1 = desempilha(pil);
 			op2 = desempilha(pil);
 			res.t = NUM;
+			if
 			if (op1.t == op2.t && op1.val.n == op2.val.n)
 				res.val.n = 1;
 			else
@@ -276,9 +297,10 @@ void exec_maquina(Maquina *m, int n) {
 		case END:
 			return;
 		case PRN:
-			printf("%d\n", desempilha(pil));
+			tmp = desempilha(pil);
+			printf("[%s, %d]\n", getTipo(tmp.t), tmp.val.n);
 			break;
-		/* ATR desempilhará */
+		/* ATR desempilhará o operando e guardará o seu atributo */
 		case ATR:
 			tmp = desempilha(pil);
 			if (arg.val.n == 0) {
