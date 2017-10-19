@@ -49,8 +49,8 @@ typedef enum {
 /* Célula */
 typedef struct {
   Terreno terreno;
-  short int cristais;
-  short int ocupado;
+  short int cristais; /* numero de cristais presentes */
+  short int ocupado; /* identificador do time se ocupado, -1 c.c */
 } Celula;
 
 
