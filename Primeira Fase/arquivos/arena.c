@@ -15,6 +15,7 @@ Arena *criaArena(int m, int n) {
 
     for (i = 0; i < MAX_EXERCITOS; i++) {
         arena->ativos[i] = -1;
+        /* Nao sei se esse malloc ta certo aaaaaaaaaaaa */
         arena->maquinas[i] = malloc(MAX_ROBOS * sizeof(Maquina));
     }
 
