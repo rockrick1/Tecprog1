@@ -7,11 +7,9 @@ Arena *criaArena(int m, int n) {
     Arena *arena = (Arena*)malloc(sizeof(Arena));
     arena->mapa = malloc(m * sizeof(Celula*));
     arena->ativos = malloc(MAX_EXERCITOS * sizeof(int));
-    arena->robos = malloc(MAX_EXERCITOS * sizeof(Pos*));
 
     for (i = 0; i < MAX_EXERCITOS; i++) {
         arena->ativos[i] = -1;
-        arena->robos[i] = malloc(MAX_ROBOS * sizeof(Pos));
     }
 
     for (i = 0; i < m; i++)
@@ -67,10 +65,9 @@ axial move(axial a, int dir, int m, int n) {
 	}
     /* Se sair do mapa, não anda */
     axial temp = cube_to_axial(c);
-    /* WIP, nao sei se funciona */
-    if (c.x < 0 || c.y < 0 || c.z < 0 || temp.q >= m || temp.r >= n)
+    if (c.x < 0 || c.y < 0 || c.z < 0 || temp.r >= m || temp.q >= n)
         return a;
-	return cube_to_axial(c);
+	return temp;
 }
 
 
@@ -88,22 +85,21 @@ void insereExercito(Arena *arena, int exercito, int m, int n) {
     /* Insere a Base no mapa */
     arena->mapa[m][n].terreno = BASE;
 
-    /* Insere 6 robôs ao redor dela e registra eles na matriz de robos */
+    /* Insere 6 robôs ao redor dela e registra
+    // eles na matriz de robos */
     for (i = 0; i < 6; i++) {
         temp = move(base, i, m, n);
         arena->mapa[temp.r][temp.q].ocupado = exercito;
-        arena->robos[exercito][i].x = temp.r;
-        arena->robos[exercito][i].y = temp.q;
     }
 }
 
-void removeExercito(Arena *arena, int exercito, int num_robos) {
-    int i, x, y;
-    for (i = 0; i < num_robos; i++) {
-        x = arena->robos[exercito][i].x;
-        y = arena->robos[exercito][i].y;
-        arena->mapa[x][y].ocupado = -1;
-    }
+void removeExercito(Arena *arena, int exercito, int m, int n) {
+    int i, j;
+    /* Remove todos os robôs desse exercito da arena */
+    for (i = 0; i < m; i++)
+        for (j = 0; j < n; j++)
+            if (arena->mapa[i][j].ocupado == exercito)
+                arena->mapa[i][j].ocupado = -1;
     /* Removce esse exercito do vetor de exercitos ativos.
     // i é a posição do exercito no vetor de exercitos ativos */
     for (i = 0; arena->ativos[i] != exercito; i++);
@@ -113,10 +109,7 @@ void removeExercito(Arena *arena, int exercito, int num_robos) {
 void destroiArena(Arena *arena, int m) {
     int i;
     for (i = 0; i < m; i++)
-    free(arena->mapa[i]);
-    for (i = 0; i < MAX_EXERCITOS; i++)
-    free(arena->robos[i]);
-    free(arena->robos);
+        free(arena->mapa[i]);
     free(arena->mapa);
     free(arena->ativos);
     free(arena);

@@ -19,7 +19,6 @@ typedef struct {
 
 typedef struct {
 	int *ativos; /* Exercitos ativos no jogo */
-	Pos **robos; /* Matriz de robos ativos, onde o primeiro indicie é o id do exercito */
 	Celula **mapa; /* Matriz de Celulas que define o mapa */
 } Arena;
 
@@ -45,6 +44,6 @@ axial move(axial a, int dir, int m, int n);
 void insereExercito(Arena *arena, int exercito, int m, int n);
 
 /* Remove todos os robôs desse exercito do mapa */
-void removeExercito(Arena *arena, int exercito, int num_robos);
+void removeExercito(Arena *arena, int exercito, int m, int n);
 
 void destroiArena(Arena *arena, int m);
