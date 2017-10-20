@@ -1,4 +1,4 @@
-#include "arena.h"
+#include "instr.h"
 
 #define PILMAX 99
 

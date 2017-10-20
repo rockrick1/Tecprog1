@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "maq.h"
+#include "arena.h"
 
 
 INSTR fibo[] = {

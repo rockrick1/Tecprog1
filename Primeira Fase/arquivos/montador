@@ -16,7 +16,7 @@ v = () # vetor de instruçoes
 tabsim = {}
 
 file.write("#include <stdio.h>\n")
-file.write("#include " + '"maq.h"\n\n')
+file.write("#include " + '"arena.h"\n\n')
 file.write("\nINSTR " + argv[1] + "[] = {\n")
 with open(argv[1]) as f:
     for l in f:

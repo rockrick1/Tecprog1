@@ -1,4 +1,4 @@
-#include "instr.h"
+#include "maq.h"
 
 #define MAX_EXERCITOS 10
 #define MAX_ROBOS 100
@@ -14,12 +14,11 @@ typedef struct {
 } axial;
 
 typedef struct {
-	int x, y;
-} Pos;
-
-typedef struct {
+	short int m, n; /* Tamanho da arena */
 	int *ativos; /* Exercitos ativos no jogo */
 	Celula **mapa; /* Matriz de Celulas que define o mapa */
+	Maquina ***maquinas; /* Matriz com todas as maquinas */
+	int tempo; /* Tempo percorrido na execução */
 } Arena;
 
 /*********************** FUNÇÕES ************************/
@@ -38,12 +37,15 @@ cube axial_to_cube(axial a);
       4   2
         3
 */
-axial move(axial a, int dir, int m, int n);
+axial move(Arena *arena, axial a, int dir);
+
+/* Atualiza a arena em um timestep */
+void atualiza(Arena *arena, int instr);
 
 /* Insere uma base do com id do exercito na posição (m,n) do mapa */
-void insereExercito(Arena *arena, int exercito, int m, int n);
+void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y);
 
 /* Remove todos os robôs desse exercito do mapa */
-void removeExercito(Arena *arena, int exercito, int m, int n);
+void removeExercito(Arena *arena, int exercito);
 
 void destroiArena(Arena *arena, int m);

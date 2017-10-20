@@ -53,6 +53,11 @@ typedef struct {
   short int ocupado; /* identificador do time se ocupado, -1 c.c */
 } Celula;
 
+/* Posição */
+typedef struct {
+	int x, y;
+} Pos;
+
 
 /* Operando */
 typedef struct {

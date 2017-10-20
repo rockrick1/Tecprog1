@@ -5,11 +5,17 @@
 Arena *criaArena(int m, int n) {
     int i, j;
     Arena *arena = (Arena*)malloc(sizeof(Arena));
+
+    arena->m = m;
+    arena->n = n;
+    arena->tempo = 0;
     arena->mapa = malloc(m * sizeof(Celula*));
     arena->ativos = malloc(MAX_EXERCITOS * sizeof(int));
+    arena->maquinas = malloc(MAX_EXERCITOS * sizeof(Maquina*));
 
     for (i = 0; i < MAX_EXERCITOS; i++) {
         arena->ativos[i] = -1;
+        arena->maquinas[i] = malloc(MAX_ROBOS * sizeof(Maquina));
     }
 
     for (i = 0; i < m; i++)
@@ -37,7 +43,9 @@ cube axial_to_cube(axial a) {
       4   2
         3
 */
-axial move(axial a, int dir, int m, int n) {
+axial move(Arena *arena, axial a, int dir) {
+    int m = arena->m;
+    int n = arena->n;
 	cube c = axial_to_cube(a);
 	if (dir == 0) {
 		c.y++;
@@ -63,41 +71,56 @@ axial move(axial a, int dir, int m, int n) {
 		c.x--;
 		c.y++;
 	}
-    /* Se sair do mapa, não anda */
+    /* Se sair do mapa ou se a posição desejada
+    // ja estiver ocupada, não anda */
     axial temp = cube_to_axial(c);
-    if (c.x < 0 || c.y < 0 || c.z < 0 || temp.r >= m || temp.q >= n)
+    if (temp.r < 0 || temp.q < 0 ||
+        temp.r >= m || temp.q >= n ||
+        arena->mapa[temp.r][temp.q].ocupado != -1)
         return a;
 	return temp;
 }
 
+/* Executa um robo de cada exercito por vez */
+void atualiza(Arena *arena, int instr) {
+    int i, j;
+    /* MAX_ROBOS e MAX_EXERCITOS sao temporarios */
+    for (i = 0; i < MAX_ROBOS; i++) {
+        for (j = 0; j < MAX_EXERCITOS; j++) {
+            exec_maquina(arena->maquinas[j][i], instr);
+        }
+    }
+}
 
-void insereExercito(Arena *arena, int exercito, int m, int n) {
+
+void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     int i;
     axial base, temp;
-    base.r = m;
-    base.q = n;
+    base.r = x;
+    base.q = y;
 
     /* Insere o exercito no vetor de ativos.
     // i é a primeira posição de ativos com -1 */
     for (i = 0; arena->ativos[i] != -1; i++);
-    arena->ativos[i] = exercito;
+        arena->ativos[i] = exercito;
 
     /* Insere a Base no mapa */
-    arena->mapa[m][n].terreno = BASE;
+    arena->mapa[x][y].terreno = BASE;
 
     /* Insere 6 robôs ao redor dela e registra
-    // eles na matriz de robos */
+    // eles na matriz de maquinas */
     for (i = 0; i < 6; i++) {
-        temp = move(base, i, m, n);
+        temp = move(arena, base, i);
         arena->mapa[temp.r][temp.q].ocupado = exercito;
+        arena->maquinas[exercito][i] = cria_maquina(p);
     }
 }
 
-void removeExercito(Arena *arena, int exercito, int m, int n) {
+void removeExercito(Arena *arena, int exercito) {
     int i, j;
-    /* Remove todos os robôs desse exercito da arena */
-    for (i = 0; i < m; i++)
-        for (j = 0; j < n; j++)
+    /* Removce todos os robos desse exercito do mapa */
+    for (i = 0; i < arena->m; i++)
+        for (j = 0; j < arena->n; j++)
             if (arena->mapa[i][j].ocupado == exercito)
                 arena->mapa[i][j].ocupado = -1;
     /* Removce esse exercito do vetor de exercitos ativos.
@@ -107,9 +130,16 @@ void removeExercito(Arena *arena, int exercito, int m, int n) {
 }
 
 void destroiArena(Arena *arena, int m) {
-    int i;
+    int i, j;
     for (i = 0; i < m; i++)
         free(arena->mapa[i]);
+    for (i = 0; i < MAX_EXERCITOS; i++) {
+        for (j = 0; j < MAX_ROBOS; j++) {
+            destroi_maquina(arena->maquinas[i][j]);
+        }
+        free(arena->maquinas[i]);
+    }
+    free(arena->maquinas);
     free(arena->mapa);
     free(arena->ativos);
     free(arena);
