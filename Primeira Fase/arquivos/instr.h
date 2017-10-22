@@ -1,3 +1,9 @@
+/*//////////////////////////////////////////////////////////////////////
+// Nome: Leonardo Ikeda                                 NUSP: 10262822//
+// Nome: Henrique Cerquinho                             NUSP: 9793700///
+// Nome: Henrique Suzuki                                NUSP: 10297626//
+//////////////////////////////////////////////////////////////////////*/
+
 /* Códigos das instruções */
 typedef enum {
   PUSH,
@@ -48,7 +54,7 @@ typedef enum {
 
 /* Célula */
 typedef struct {
-  Terreno terreno;
+  Terreno terreno; /* tipo de terreno dessa celula */
   short int cristais; /* numero de cristais presentes */
   short int ocupado; /* identificador do time se ocupado, -1 c.c */
 } Celula;
@@ -59,7 +65,8 @@ typedef struct {
 } Pos;
 
 
-/* Operando */
+/* Novo operando, com dois campos, uma para o tipo e outro para o
+// valor do tipo em questão */
 typedef struct {
   Tipo t;
   union {

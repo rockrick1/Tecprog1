@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////
-// Nome: Leonardo Ikeda									NUSP: 10262822//
-// Nome: Henrique Cerquinho								NUSP: 9793700///
-// Nome: Henrique Suzuki								NUSP: 10297626//
+// Nome: Leonardo Ikeda                                 NUSP: 10262822//
+// Nome: Henrique Cerquinho                             NUSP: 9793700///
+// Nome: Henrique Suzuki                                NUSP: 10297626//
 ////////////////////////// COMPILAÇÃO //////////////////////////////////
 
     Para rodar a maquina virtual, temos duas opções:
@@ -20,3 +20,13 @@ compilar com o comando:
 gcc -pedantic -O2 motor.c maq.c maq.h pilha.c pilha.h instr.h -o motor
 
 e rodar ./motor
+
+////////////////////////// SEGUNDA FASE ////////////////////////////////
+
+    Vale comentar que, para a implementação da arena (de grid hexagonal)
+foram usadas coordenadas quadradas e cúbicas, assim como usas respectivas
+conversões, e usando uma arena em formato 'rhombus', com explicado no link
+postado no paca (http://www.redblobgames.com/grids/hexagons/).
+    Além disso, a ordem dos 'includes' foi alterada dos arquivos fornecidos
+inicialmente para podermos encaixar as funções da arena e usarmos funções de
+Maquina nas funções de arena.

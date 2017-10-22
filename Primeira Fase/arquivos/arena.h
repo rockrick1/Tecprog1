@@ -1,3 +1,9 @@
+/*//////////////////////////////////////////////////////////////////////
+// Nome: Leonardo Ikeda                                 NUSP: 10262822//
+// Nome: Henrique Cerquinho                             NUSP: 9793700///
+// Nome: Henrique Suzuki                                NUSP: 10297626//
+//////////////////////////////////////////////////////////////////////*/
+
 #include "maq.h"
 
 #define MAX_EXERCITOS 10
@@ -10,7 +16,7 @@ typedef struct {
 } cube;
 
 typedef struct {
-	int r, q;
+	int r, q; /* r seria o eixo y do mapa e q, o eixo x */
 } axial;
 
 typedef struct {
@@ -39,7 +45,8 @@ cube axial_to_cube(axial a);
 */
 axial move(Arena *arena, axial a, int dir);
 
-/* Atualiza a arena em um timestep */
+/* Atualiza a arena em um timestep. Instr é o numero de instruções que
+// cada maquina rodará */
 void atualiza(Arena *arena, int instr);
 
 /* Insere uma base do com id do exercito na posição (m,n) do mapa */

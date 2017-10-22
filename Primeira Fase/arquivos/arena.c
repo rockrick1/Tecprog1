@@ -1,3 +1,9 @@
+/*//////////////////////////////////////////////////////////////////////
+// Nome: Leonardo Ikeda                                 NUSP: 10262822//
+// Nome: Henrique Cerquinho                             NUSP: 9793700///
+// Nome: Henrique Suzuki                                NUSP: 10297626//
+//////////////////////////////////////////////////////////////////////*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "arena.h"
@@ -15,7 +21,6 @@ Arena *criaArena(int m, int n) {
 
     for (i = 0; i < MAX_EXERCITOS; i++) {
         arena->ativos[i] = -1;
-        /* Nao sei se esse malloc ta certo aaaaaaaaaaaa */
         arena->maquinas[i] = malloc(MAX_ROBOS * sizeof(Maquina));
     }
 
@@ -47,6 +52,8 @@ cube axial_to_cube(axial a) {
 axial move(Arena *arena, axial a, int dir) {
     int m = arena->m;
     int n = arena->n;
+    /* Converte a coordenada quadrada para cubica,
+    // para fazer as alterações */
 	cube c = axial_to_cube(a);
 	if (dir == 0) {
 		c.y++;
@@ -73,7 +80,8 @@ axial move(Arena *arena, axial a, int dir) {
 		c.y++;
 	}
     /* Se sair do mapa ou se a posição desejada
-    // ja estiver ocupada, não anda */
+    // ja estiver ocupada, não anda.
+    // Devolve a coordenada convertida de volta para quadrada */
     axial temp = cube_to_axial(c);
     if (temp.r < 0 || temp.q < 0 ||
         temp.r >= m || temp.q >= n ||
@@ -85,12 +93,13 @@ axial move(Arena *arena, axial a, int dir) {
 /* Executa um robo de cada exercito por vez */
 void atualiza(Arena *arena, int instr) {
     int i, j;
-    /* MAX_ROBOS e MAX_EXERCITOS sao temporarios */
+    /* MAX_ROBOS e MAX_EXERCITOS temporarios */
     for (i = 0; i < MAX_ROBOS; i++) {
         for (j = 0; j < MAX_EXERCITOS; j++) {
             exec_maquina(arena->maquinas[j][i], instr);
         }
     }
+    arena->tempo++;
 }
 
 
@@ -119,12 +128,12 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
 void removeExercito(Arena *arena, int exercito) {
     int i, j;
-    /* Removce todos os robos desse exercito do mapa */
+    /* Remove todos os robos desse exercito do mapa */
     for (i = 0; i < arena->m; i++)
         for (j = 0; j < arena->n; j++)
             if (arena->mapa[i][j].ocupado == exercito)
                 arena->mapa[i][j].ocupado = -1;
-    /* Removce esse exercito do vetor de exercitos ativos.
+    /* Remove esse exercito do vetor de exercitos ativos.
     // i é a posição do exercito no vetor de exercitos ativos */
     for (i = 0; arena->ativos[i] != exercito; i++);
     arena->ativos[i] = -1;

@@ -1,3 +1,9 @@
+#///////////////////////////////////////////////////////////////////////
+#/ Nome: Leonardo Ikeda                                 NUSP: 10262822//
+#/ Nome: Henrique Cerquinho                             NUSP: 9793700///
+#/ Nome: Henrique Suzuki                                NUSP: 10297626//
+#///////////////////////////////////////////////////////////////////////
+
 #!/usr/bin/python3
 
 """
@@ -5,7 +11,7 @@ Lê, na entrada padrão, um programa na linguagem de montagem da máquina
 virtual e retorna um programa em C que executa este programa.
 
 Uso:
-    montador < entrada > saida
+    montador < entrada >
 """
 
 from sys import argv

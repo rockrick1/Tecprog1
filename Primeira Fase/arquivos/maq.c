@@ -1,3 +1,9 @@
+/*//////////////////////////////////////////////////////////////////////
+// Nome: Leonardo Ikeda                                 NUSP: 10262822//
+// Nome: Henrique Cerquinho                             NUSP: 9793700///
+// Nome: Henrique Suzuki                                NUSP: 10297626//
+//////////////////////////////////////////////////////////////////////*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "maq.h"
@@ -119,6 +125,8 @@ void exec_maquina(Maquina *m, int n) {
 				empilha(pil, tmp);
 				empilha(pil, tmp);
 				break;
+			/* A partir daqui, as funções foram adaptadas para a nova struct
+			// do Operando, validando o seu tipo em cada uma delas */
 			case ADD:
 				op1 = desempilha(pil);
 				op2 = desempilha(pil);
@@ -308,6 +316,8 @@ void exec_maquina(Maquina *m, int n) {
 				break;
 			case END:
 				return;
+			/* PRN utiliza uma função que interpreta o tipo do Operando para
+			// imprimi-lo como string */
 			case PRN:
 				tmp = desempilha(pil);
 				printf("[%s, %d]\n", getTipo(tmp.t), tmp.val.n);
@@ -317,16 +327,14 @@ void exec_maquina(Maquina *m, int n) {
 			case ATR:
 				tmp = desempilha(pil);
 				if (tmp.t == CELULA) {
+					res.t = NUM;
 					if (arg.val.n == 0) { /* Pediu o tipo de terreno */
-						res.t = NUM;
 						res.val.n = getTerreno(tmp.val.cell.terreno);
 					}
 					else if (arg.val.n == 1) { /* Pediu o numero de cristais */
-						res.t = ACAO;
 						res.val.n = tmp.val.cell.cristais;
 					}
 					else if (arg.val.n == 2) { /* Pediu se está ocupado ou nao */
-						res.t = VAR;
 						res.val.n = tmp.val.cell.ocupado;
 					}
 					empilha(pil, res);

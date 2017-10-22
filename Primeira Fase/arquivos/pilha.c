@@ -1,3 +1,9 @@
+/*//////////////////////////////////////////////////////////////////////
+// Nome: Leonardo Ikeda                                 NUSP: 10262822//
+// Nome: Henrique Cerquinho                             NUSP: 9793700///
+// Nome: Henrique Suzuki                                NUSP: 10297626//
+//////////////////////////////////////////////////////////////////////*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "pilha.h"
