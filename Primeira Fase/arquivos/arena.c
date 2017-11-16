@@ -43,17 +43,17 @@ void iniArena(Arena *arena){
 		for(j=0;j<y;j++){
 			
 			/*inicia com 0 cristais*/
-			arena->mapa[x][y].cristais =0;	
+			arena->mapa[i][j].cristais =0;	
 			/*define terreno*/
 			int a =rand()%2;	
 			if(a==0){
-				arena->mapa[x][y].terreno = ESTRADA;	
+				arena->mapa[i][j].terreno = ESTRADA;	
 			}else{
 				a=rand()%2;
 				if(a==0){
-					arena->mapa[x][y].terreno = MONTANHA;	
+					arena->mapa[i][j].terreno = MONTANHA;	
 				}else{
-					arena->mapa[x][y].terreno = RIO;	
+					arena->mapa[i][j].terreno = RIO;	
 				}
 			}
 		
@@ -61,15 +61,15 @@ void iniArena(Arena *arena){
 			int b =rand()%2;	
 			if(b==1){
 				/*50% de ter 1*/
-				arena->mapa[x][y].cristais +=1;
+				arena->mapa[i][j].cristais +=1;
 				b =rand()%2;
 				if(b==1){
 					/* dentre esses 50% de ter 2*/
-					arena->mapa[x][y].cristais +=1;
+					arena->mapa[i][j].cristais +=1;
 					b =rand()%2;
 					if(b==1){
 						/*dentre esses 50% de ter 3*/
-						arena->mapa[x][y].cristais +=1;
+						arena->mapa[i][j].cristais +=1;
 					}
 				}
 			}
