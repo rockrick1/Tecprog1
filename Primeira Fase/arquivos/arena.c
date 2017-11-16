@@ -26,7 +26,59 @@ Arena *criaArena(int m, int n) {
 
     for (i = 0; i < m; i++)
         arena->mapa[i] = malloc(n * sizeof(Celula));
+	
+    iniArena(arena);
     return arena;
+}
+
+void iniArena(Arena *arena){
+	/*coloca terrenos nas celulas com 50% de se estrada, 25% montanha e 25% rio*/
+	/*em teoria as bases são inseridas depois, por isso não verifica se é base*/
+	int x,y;
+	int i,j;
+	x=arena->m;
+	y=arena->n;
+	
+	for(i=0;i<x;i++){
+		for(j=0;j<y;j++){
+			
+			/*inicia com 0 cristais*/
+			arena->mapa[x][y].cristais =0;	
+			/*define terreno*/
+			int a =rand()%2;	
+			if(a==0){
+				arena->mapa[x][y].terreno = ESTRADA;	
+			}else{
+				a=rand()%2;
+				if(a==0){
+					arena->mapa[x][y].terreno = MONTANHA;	
+				}else{
+					arena->mapa[x][y].terreno = RIO;	
+				}
+			}
+		
+			/*define cristais*/
+			int b =rand()%2;	
+			if(b==1){
+				/*50% de ter 1*/
+				arena->mapa[x][y].cristais +=1;
+				b =rand()%2;
+				if(b==1){
+					/* dentre esses 50% de ter 2*/
+					arena->mapa[x][y].cristais +=1;
+					b =rand()%2;
+					if(b==1){
+						/*dentre esses 50% de ter 3*/
+						arena->mapa[x][y].cristais +=1;
+					}
+				}
+			}
+			
+			
+			
+		}
+	}
+	
 }
 
 axial cube_to_axial(cube c) {
@@ -96,7 +148,12 @@ void atualiza(Arena *arena, int instr) {
     /* MAX_ROBOS e MAX_EXERCITOS temporarios */
     for (i = 0; i < MAX_ROBOS; i++) {
         for (j = 0; j < MAX_EXERCITOS; j++) {
-            exec_maquina(arena->maquinas[j][i], instr);
+		/* se o nivel de ocupação for maior que 0, não executa a instrução e no--, não sei se funfa*/
+		if (arena->maquinas[j][i].no==0 ){
+            		exec_maquina(arena->maquinas[j][i], instr) ;
+		}else{
+			arena->maquinas[j][i].no+=-1 ;
+		}
         }
     }
     arena->tempo++;
@@ -116,7 +173,8 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
     /* Insere a Base no mapa */
     arena->mapa[x][y].terreno = BASE;
-
+	arena->mapa[x][y].cristais = 0;
+	
     /* Insere 6 robôs ao redor dela e registra
     // eles na matriz de maquinas */
     for (i = 0; i < 6; i++) {
