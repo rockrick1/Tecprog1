@@ -58,6 +58,8 @@ static void Fatal(char *msg, int cod) {
 Maquina *cria_maquina(INSTR *p) {
 	Maquina *m = (Maquina*)malloc(sizeof(Maquina));
 	if (!m) Fatal("Memória insuficiente",4);
+	m->hp = 10; /*cada avaria tira 1 de vida*/
+	m->no = 0; /*nivel de ocupação*/
 	m->ip = 0;
 	m->bp = 0;
 	m->prog = p;
