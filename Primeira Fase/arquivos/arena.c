@@ -31,22 +31,22 @@ Arena *criaArena(int m, int n) {
     return arena;
 }
 
-void iniArena(Arena *arena){
-	  /*coloca terrenos nas celulas com 50% de se estrada, 25% montanha e 25% rio*/
-	  /*em teoria as bases são inseridas depois, por isso não verifica se é base*/
-	  int x,y;
-	  int i,j;
-	  x = arena->m;
-	  y = arena->n;
-	  for (i = 0; i < x; i++) {
+void iniArena(Arena *arena) {
+    /*coloca terrenos nas celulas com 50% de se estrada, 25% montanha e 25% rio*/
+     /*em teoria as bases são inseridas depois, por isso não verifica se é base*/
+    int x,y;
+    int i,j;
+    x = arena->m;
+    y = arena->n;
+    for (i = 0; i < x; i++) {
         for (j = 0; j < y; j++) {
-			      /*inicia com 0 cristais*/
-			      arena->mapa[i][j].cristais =0;
+            /*inicia com 0 cristais*/
+            arena->mapa[i][j].cristais =0;
 
-            /*definição dos terrenos*/
+             /*definição dos terrenos*/
             int a = rand() % 4;
             if (a == 0 || a == 1) {
-				        arena->mapa[i][j].terreno = ESTRADA;
+                arena->mapa[i][j].terreno = ESTRADA;
             }
             else if (a == 2) {
                 arena->mapa[i][j].terreno = MONTANHA;
@@ -133,7 +133,7 @@ axial move(Arena *arena, axial a, int dir) {
         temp.r >= m || temp.q >= n ||
         arena->mapa[temp.r][temp.q].ocupado != -1)
         return a;
-	return temp;
+    return temp;
 }
 
 /* Executa um robo de cada exercito por vez */
@@ -142,7 +142,7 @@ void atualiza(Arena *arena, int instr) {
     /* MAX_ROBOS e MAX_EXERCITOS temporarios */
     for (i = 0; i < MAX_ROBOS; i++) {
         for (j = 0; j < MAX_EXERCITOS; j++) {
-		    /* se o nivel de ocupação for maior que 0, não executa a instrução e no--, não sei se funfa*/
+        /* se o nivel de ocupação for maior que 0, não executa a instrução e no--, não sei se funfa */
             if (arena->maquinas[j][i].no == 0) {
                 exec_maquina(arena->maquinas[j][i], instr);
             }
@@ -168,7 +168,7 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
     /* Insere a Base no mapa */
     arena->mapa[x][y].terreno = BASE;
-	arena->mapa[x][y].cristais = 0;
+    arena->mapa[x][y].cristais = 0;
 
     /* Insere 6 robôs ao redor dela e registra
     // eles na matriz de maquinas */
