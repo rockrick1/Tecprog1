@@ -31,6 +31,9 @@ typedef struct {
 
 Arena *criaArena(int m, int n);
 
+/*coloca terreno e cristais*/
+void iniArena(Arena *arena);
+
 /* Converte coordenada cubica para axial */
 axial cube_to_axial(cube c);
 
