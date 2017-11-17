@@ -31,6 +31,12 @@ typedef struct {
 
 Arena *criaArena(int m, int n);
 
+/*função que o gubi pediu, img ainda esta confuso quanto ao funcionamento*/
+void base(char img, int i , int j, Arena *arena);
+
+/*funçao que o gubi pediu*/
+void cristais(int n,int i, int j ,Arena *arena);
+
 /*coloca terreno e cristais*/
 void iniArena(Arena *arena);
 
