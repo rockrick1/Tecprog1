@@ -76,18 +76,18 @@ void iniArena(Arena *arena) {
 }
 
 axial cube_to_axial(cube c) {
-	axial a;
-	a.q = c.x;
-	a.r = c.z;
-	return a;
+    axial a;
+    a.q = c.x;
+    a.r = c.z;
+    return a;
 }
 
 cube axial_to_cube(axial a) {
-	cube c;
-	c.x = a.q;
-	c.z = a.r;
-	c.y = -c.x-c.z;
-	return c;
+    cube c;
+    c.x = a.q;
+    c.z = a.r;
+    c.y = -c.x-c.z;
+    return c;
 }
 
 /* dir: 0
@@ -100,31 +100,31 @@ axial move(Arena *arena, axial a, int dir) {
     int n = arena->n;
     /* Converte a coordenada quadrada para cubica,
     // para fazer as alterações */
-	cube c = axial_to_cube(a);
-	if (dir == 0) {
-		c.y++;
-		c.z--;
-	}
-	else if (dir == 1) {
-		c.x++;
-		c.z--;
-	}
-	else if (dir == 2) {
-		c.x++;
-		c.y--;
-	}
-	else if (dir == 3) {
-		c.y--;
-		c.z++;
-	}
-	else if (dir == 4) {
-		c.x--;
-		c.z++;
-	}
-	else { /* dir == 5 */
-		c.x--;
-		c.y++;
-	}
+    cube c = axial_to_cube(a);
+    if (dir == 0) {
+        c.y++;
+        c.z--;
+    }
+    else if (dir == 1) {
+        c.x++;
+        c.z--;
+    }
+    else if (dir == 2) {
+        c.x++;
+        c.y--;
+    }
+    else if (dir == 3) {
+        c.y--;
+        c.z++;
+    }
+    else if (dir == 4) {
+        c.x--;
+        c.z++;
+    }
+    else { /* dir == 5 */
+        c.x--;
+        c.y++;
+    }
     /* Se sair do mapa ou se a posição desejada
     // ja estiver ocupada, não anda.
     // Devolve a coordenada convertida de volta para quadrada */
@@ -163,8 +163,9 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
     /* Insere o exercito no vetor de ativos.
     // i é a primeira posição de ativos com -1 */
-    for (i = 0; arena->ativos[i] != -1; i++);
+    for (i = 0; arena->ativos[i] != -1; i++) {
         arena->ativos[i] = exercito;
+    }
 
     /* Insere a Base no mapa */
     arena->mapa[x][y].terreno = BASE;
@@ -182,14 +183,18 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 void removeExercito(Arena *arena, int exercito) {
     int i, j;
     /* Remove todos os robos desse exercito do mapa */
-    for (i = 0; i < arena->m; i++)
-        for (j = 0; j < arena->n; j++)
-            if (arena->mapa[i][j].ocupado == exercito)
+    for (i = 0; i < arena->m; i++) {
+        for (j = 0; j < arena->n; j++) {
+            if (arena->mapa[i][j].ocupado == exercito) {
                 arena->mapa[i][j].ocupado = -1;
+            }
+        }
+    }
     /* Remove esse exercito do vetor de exercitos ativos.
     // i é a posição do exercito no vetor de exercitos ativos */
-    for (i = 0; arena->ativos[i] != exercito; i++);
-    arena->ativos[i] = -1;
+    for (i = 0; arena->ativos[i] != exercito; i++) {
+        arena->ativos[i] = -1;
+    }
 }
 
 void destroiArena(Arena *arena, int m) {
