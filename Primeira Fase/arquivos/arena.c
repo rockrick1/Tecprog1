@@ -31,6 +31,18 @@ Arena *criaArena(int m, int n) {
     return arena;
 }
 
+/*com a parte grafica, a img que vem como parametro é a imagem da base*/
+void base(char img, int i, int j, Arena *arena){
+    arena->mapa[i][j].terreno = BASE;
+    arena->mapa[i][j].cristais = 0;
+    /*falta desenhar*/
+}
+
+/*função que o gubi pediu, com mais um parametro que é o arena(não sei se é necessario)*/
+void cristais(int n, int i, int j, Arena *arena){
+    arena->mapa[i][j].cristais = n;
+}
+
 void iniArena(Arena *arena) {
     /*coloca terrenos nas celulas com 50% de se estrada, 25% montanha e 25% rio*/
      /*em teoria as bases são inseridas depois, por isso não verifica se é base*/
@@ -60,15 +72,16 @@ void iniArena(Arena *arena) {
         int b = rand() % 2;
         if (b == 1) {
             /*50% de ter 1*/
-            arena->mapa[i][j].cristais += 1;
+            cristais(1,i,j,arena);
+
             b = rand() % 2;
             if (b == 1) {
                 /* dentre esses 50% de ter 2*/
-                arena->mapa[i][j].cristais +=1;
+                cristais(2,i,j,arena);
                 b = rand() % 2;
                 if (b == 1) {
                     /*dentre esses 50% de ter 3*/
-                    arena->mapa[i][j].cristais +=1;
+                    cristais(3,i,j,arena);
                 }
             }
         }
@@ -168,8 +181,12 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     }
 
     /* Insere a Base no mapa */
-    arena->mapa[x][y].terreno = BASE;
-    arena->mapa[x][y].cristais = 0;
+    
+    base(img, x, y,arena);
+    /*falta a imagem, mas pra isso é necessário a parte grafica*/
+        
+    //arena->mapa[x][y].terreno = BASE;
+    //arena->mapa[x][y].cristais = 0;
 
     /* Insere 6 robôs ao redor dela e registra
     // eles na matriz de maquinas */
