@@ -55,11 +55,16 @@ static void Fatal(char *msg, int cod) {
 	exit(cod);
 }
 
-Maquina *cria_maquina(INSTR *p) {
+Maquina *cria_maquina(INSTR *p,int x,int y) {
 	Maquina *m = (Maquina*)malloc(sizeof(Maquina));
 	if (!m) Fatal("Memória insuficiente",4);
 	m->hp = 10; /*cada avaria tira 1 de vida*/
 	m->no = 0; /*nivel de ocupação*/
+	
+	/*Alteração na posição do robo, algo que não parecia ser feito*/
+	m->xpos=x;
+	m->ypos=y;
+	
 	m->ip = 0;
 	m->bp = 0;
 	m->prog = p;
