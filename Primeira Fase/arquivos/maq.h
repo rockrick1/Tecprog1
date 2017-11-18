@@ -19,11 +19,14 @@ typedef struct {
   int ip;
   int bp;
   int exercito;
-  Pos pos; /* Coordenadas da posição do robô */
+  int xpos;/* Coordenadas da posição do robô */
+  int ypox;/* Coordenadas da posição do robô */
+ // Pos pos; /* Coordenadas da posição do robô, não utilizadas no momento */
   int cristais; /* Quantidade de cristais carregados pelo robô */
 } Maquina;
 
-Maquina *cria_maquina(INSTR *p);
+/*adicionei as posições iniciais*/
+Maquina *cria_maquina(INSTR *p, int x, int y);
 
 void destroi_maquina(Maquina *m);
 
