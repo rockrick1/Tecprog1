@@ -30,3 +30,14 @@ postado no paca (http://www.redblobgames.com/grids/hexagons/).
     Além disso, a ordem dos 'includes' foi alterada dos arquivos fornecidos
 inicialmente para podermos encaixar as funções da arena e usarmos funções de
 Maquina nas funções de arena.
+
+////////////////////////// TERCEIRA FASE ////////////////////////////////
+
+    Na terceira fase, foi feita a inicialização de forma completa dos robôs, 
+que agora contam com hp(saúde) e nível de ocupação. Também foi feita a 
+inicialização da Arena, definindo terrenos e adicionando cristais de forma
+aleatória. A Arena, os robôs e as bases quando criados mandam um comando para
+o programa de visualização(apres).
+    Não conseguimos implementar os cristais e os terrenos na parte gráfica.
+Também não colocamos um objeto para guardar a vizinhança nos robos, já que não
+vimos necessidade para isso no nosso projeto.
