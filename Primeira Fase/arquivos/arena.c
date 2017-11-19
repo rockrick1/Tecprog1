@@ -8,10 +8,16 @@
 #include <stdlib.h>
 #include "arena.h"
 
+
+FILE *display;
+int exer;
+
 Arena *criaArena(int m, int n) {
     int i, j;
     Arena *arena = (Arena*)malloc(sizeof(Arena));
-
+    
+    exer=0;
+    
     arena->m = m;
     arena->n = n;
     arena->tempo = 0;
@@ -28,15 +34,17 @@ Arena *criaArena(int m, int n) {
         arena->mapa[i] = malloc(n * sizeof(Celula));
 
     iniArena(arena);
+    display = popen("./apres", "w");
     return arena;
 }
 
-/*com a parte grafica, a img que vem como parametro é a imagem da base*/
+
+/*com a parte grafica, a img que vem como parametro é a imagem da base
 void base(char img, int i, int j, Arena *arena){
     arena->mapa[i][j].terreno = BASE;
     arena->mapa[i][j].cristais = 0;
-    /*falta desenhar*/
-}
+    
+}*/
 
 /*função que o gubi pediu, com mais um parametro que é o arena(não sei se é necessario)*/
 void cristais(int n, int i, int j, Arena *arena){
@@ -146,6 +154,8 @@ axial move(Arena *arena, axial a, int dir) {
         temp.r >= m || temp.q >= n ||
         arena->mapa[temp.r][temp.q].ocupado != -1)
         return a;
+    
+
     return temp;
 }
 
@@ -173,7 +183,8 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     axial base, temp;
     base.r = x;
     base.q = y;
-
+    int rob;
+    rob=0;
     /* Insere o exercito no vetor de ativos.
     // i é a primeira posição de ativos com -1 */
     for (i = 0; arena->ativos[i] != -1; i++) {
@@ -182,19 +193,49 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
     /* Insere a Base no mapa */
     
-    base(img, x, y,arena);
+    //base(img, x, y,arena);
     /*falta a imagem, mas pra isso é necessário a parte grafica*/
         
-    //arena->mapa[x][y].terreno = BASE;
-    //arena->mapa[x][y].cristais = 0;
-
+    arena->mapa[x][y].terreno = BASE;
+    arena->mapa[x][y].cristais = 0;
+    arena->mapa[x][y].ocupado = exercito;
+    if (exer==0){
+        fprintf(display, "rob baseA.png\n");
+        fflush(display);
+        fprintf(display, "%d %d %d %d %d\n", rob, -1, -1, x, y);
+        fflush(display);
+        rob++;
+    }else{
+        fprintf(display, "rob baseB.png\n");
+        fflush(display);
+        fprintf(display, "%d %d %d %d %d\n", rob+6, -1, -1, x, y);
+        fflush(display);      
+        rob++;
+    }
     /* Insere 6 robôs ao redor dela e registra
     // eles na matriz de maquinas */
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
         arena->mapa[temp.r][temp.q].ocupado = exercito;
-        arena->maquinas[exercito][i] = cria_maquina(p);
+        //pequena diferença no codigo, agora a posição do robo é definida
+        arena->maquinas[exercito][i] = cria_maquina(p, temp.r, temp.q);
+        
+        if (exer==0){
+            fprintf(display, "rob GILEAD_A.png\n");
+            fflush(display);
+            fprintf(display, "%d %d %d %d %d\n", rob, -1, -1, temp.r, temp.q);
+            fflush(display);
+            rob++;
+        }else{
+            fprintf(display, "rob GILEAD_B.png\n");
+            fflush(display);
+            fprintf(display, "%d %d %d %d %d\n", (rob + 6), -1, -1, temp.r, temp.q);
+            fflush(display);        
+            rob++;
+        }
     }
+    exer++;
+    
 }
 
 void removeExercito(Arena *arena, int exercito) {
