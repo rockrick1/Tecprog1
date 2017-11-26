@@ -40,7 +40,7 @@ typedef enum {
 typedef enum {
   NUM,
   ACAO,
-  VAR,
+  DIRECAO,
   CELULA
 } Tipo;
 
@@ -59,12 +59,6 @@ typedef struct {
   short int ocupado; /* identificador do time se ocupado, -1 c.c */
 } Celula;
 
-/* Posição */
-typedef struct {
-	int x, y;
-} Pos;
-
-
 /* Novo operando, com dois campos, uma para o tipo e outro para o
 // valor do tipo em questão */
 typedef struct {
@@ -72,7 +66,7 @@ typedef struct {
   union {
 	int n;
 	int ac;
-    int v;
+    int dir;
 	Celula cell;
   } val;
 } OPERANDO;

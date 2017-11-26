@@ -55,16 +55,17 @@ static void Fatal(char *msg, int cod) {
 	exit(cod);
 }
 
-Maquina *cria_maquina(INSTR *p,int x,int y) {
+Maquina *cria_maquina(INSTR *p, int x, int y, int equipe) {
 	Maquina *m = (Maquina*)malloc(sizeof(Maquina));
 	if (!m) Fatal("Memória insuficiente",4);
 	m->hp = 10; /*cada avaria tira 1 de vida*/
 	m->no = 0; /*nivel de ocupação*/
-	
-	/*Alteração na posição do robo, algo que não parecia ser feito*/
-	m->xpos=x;
-	m->ypos=y;
-	
+
+	/* Alteração na posição do robo */
+	m->xpos = x;
+	m->ypos = y;
+	m->equipe = equipe;
+
 	m->ip = 0;
 	m->bp = 0;
 	m->prog = p;
@@ -77,7 +78,7 @@ const char *getTipo(Tipo tipo) {
 	switch (tipo) {
 		case NUM: return "NUM";
 		case ACAO: return "ACAO";
-		case VAR: return "VAR";
+		case DIRECAO: return "DIRECAO";
 		case CELULA: return "CELULA";
 	}
 }
@@ -106,7 +107,7 @@ void destroi_maquina(Maquina *m) {
 #define exec (&m->exec)
 #define prg (m->prog)
 
-void exec_maquina(Maquina *m, int n) {
+void exec_maquina(Maquina *m, int n, Arena *arena) {
 	int i;
 
 	for (i = 0; i < n; i++) {
@@ -347,6 +348,42 @@ void exec_maquina(Maquina *m, int n) {
 					empilha(pil, res);
 				}
 				break;
+			case STS:
+				tmp = desempilha(pil);
+				if (tmp.t == DIRECAO && arg.t == ACAO) {
+					int dir = tmp.val.dir;
+					int x = m->xpos;
+					int y = m->ypos;
+
+					axial atual;
+					atual.q = x; atual.r = y;
+
+					/* Pega a posição da matriz solicitada */
+					axial destino = move(arena, atual, dir);
+					if (arg.val.ac == 0) { // Mover
+						arena->mapa[y][x].ocupado = -1;
+						arena->mapa[destino.r][destino.q].ocupado = m->equipe;
+
+						/* Atualiza a posicao da maquina */
+						m->xpos = destino.q;
+						m->ypos = destino.r;
+					}
+					else if (arg.val.ac == 1) { // Recolher
+						if (arena->mapa[destino.r][destino.q].cristais > 0) {
+							arena->mapa[destino.r][destino.q].cristais--;
+							m->cristais++;
+						}
+					}
+					else if (arg.val.ac == 2) { // Depositar
+						if (m->cristais > 0) {
+							arena->mapa[destino.r][destino.q].cristais++;
+							m->cristais--;
+						}
+					}
+					else if (arg.val.ac == 3) { // Atacar
+						printf("me ajuda jesus\n");
+					}
+				}
 		}
 		D(printf("pil: "));
 		D(imprime(pil, 100));
