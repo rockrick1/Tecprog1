@@ -31,7 +31,7 @@ Arena *criaArena(int m, int n) {
         arena->mapa[i] = malloc(n * sizeof(Celula));
 
     iniciaArena(arena);
-    display = popen("./apres", "w");
+    // display = popen("./apres", "w");
     return arena;
 }
 
@@ -43,8 +43,8 @@ void base(char img, int i, int j, Arena *arena){
 
 }*/
 
-/*função que o gubi pediu, com mais um parametro que é o arena(não sei se é necessario)*/
-void cristais(int n, int i, int j, Arena *arena){
+/* função que o gubi pediu, com mais um parametro que é o arena */
+void cristais(Arena *arena, int n, int i, int j){
     arena->mapa[i][j].cristais = n;
 }
 
@@ -77,16 +77,16 @@ void iniciaArena(Arena *arena) {
         int b = rand() % 2;
         if (b == 1) {
             /*50% de ter 1*/
-            cristais(1,i,j,arena);
+            cristais(arena, 1, i, j);
 
             b = rand() % 2;
             if (b == 1) {
                 /* dentre esses 50% de ter 2*/
-                cristais(2,i,j,arena);
+                cristais(arena, 2, i, j);
                 b = rand() % 2;
                 if (b == 1) {
                     /*dentre esses 50% de ter 3*/
-                    cristais(3,i,j,arena);
+                    cristais(arena, 3, i, j);
                 }
             }
         }
@@ -162,8 +162,8 @@ axial move(Arena *arena, axial a, int dir) {
 void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     int i;
     axial base, temp;
-    base.r = x;
-    base.q = y;
+    base.r = y;
+    base.q = x;
     int rob;
     rob=0;
     /* Insere o exercito no vetor de ativos.
@@ -198,8 +198,8 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     // eles na matriz de maquinas */
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
+        // r = y e q = x
         arena->mapa[temp.r][temp.q].ocupado = exercito;
-        //pequena diferença no codigo, agora a posição do robo é definida
 
         if (exer == 0) {
             fprintf(display, "rob GILEAD_A.png\n");
@@ -234,6 +234,19 @@ void removeExercito(Arena *arena, int exercito) {
     // i é a posição do exercito no vetor de exercitos ativos */
     for (i = 0; arena->ativos[i] != exercito; i++) {
         arena->ativos[i] = -1;
+    }
+}
+
+void printArena(Arena *arena) {
+    int m = arena->m, n = arena->n;
+    int i, j;
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < n; j++) {
+            printf("%2d", arena->mapa[i][j].ocupado);
+        }
+        printf("\n");
+        for (int k = 0; k <= i; k++)
+            printf(" ");
     }
 }
 

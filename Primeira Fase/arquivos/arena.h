@@ -6,7 +6,7 @@
 
 #include "pilha.h"
 
-#define MAX_EXERCITOS 10
+#define MAX_EXERCITOS 5
 #define MAX_ROBOS 100
 
 /*********************** STRUCTS ************************/
@@ -34,7 +34,7 @@ Arena *criaArena(int m, int n);
 //void base(char img, int i , int j, Arena *arena);
 
 /*funçao que o gubi pediu*/
-void cristais(int n, int i, int j, Arena *arena);
+void cristais(Arena *arena, int n, int i, int j);
 
 /*coloca terreno e cristais*/
 void iniciaArena(Arena *arena);
@@ -45,7 +45,7 @@ axial cube_to_axial(cube c);
 /* Converte coordenada axial para cubica */
 cube axial_to_cube(axial a);
 
-/* move o robô para a direção dir:
+/* Devolve a posicao da matriz para qual o robô se moverá, na direção dir:
         0
       5   1
       4   2
@@ -58,5 +58,7 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y);
 
 /* Remove todos os robôs desse exercito do mapa */
 void removeExercito(Arena *arena, int exercito);
+
+void printArena(Arena *arena);
 
 void destroiArena(Arena *arena, int m);
