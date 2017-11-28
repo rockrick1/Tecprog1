@@ -7,7 +7,7 @@
 #include "pilha.h"
 
 #define MAX_EXERCITOS 5
-#define MAX_ROBOS 100
+#define MAX_ROBOS 15
 
 /*********************** STRUCTS ************************/
 
