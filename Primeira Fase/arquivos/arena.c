@@ -59,6 +59,7 @@ void iniciaArena(Arena *arena) {
         for (j = 0; j < y; j++) {
             /*inicia com 0 cristais*/
             arena->mapa[i][j].cristais = 0;
+            arena->mapa[i][j].ocupado = -1;
 
              /*definição dos terrenos*/
             int a = rand() % 4;
@@ -145,13 +146,12 @@ axial move(Arena *arena, axial a, int dir) {
         c.x--;
         c.y++;
     }
-    /* Se sair do mapa ou se a posição desejada
-    // ja estiver ocupada, não anda.
+    /* Se sair do mapa, não anda.
     // Devolve a coordenada convertida de volta para quadrada */
     axial temp = cube_to_axial(c);
-    if (temp.r < 0 || temp.q < 0 || temp.r >= m || temp.q >= n ||
-        arena->mapa[temp.r][temp.q].ocupado != -1)
+    if (temp.r < 0 || temp.q < 0 || temp.r >= m || temp.q >= n) {
         return a;
+    }
 
     return temp;
 }
@@ -198,6 +198,7 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     // eles na matriz de maquinas */
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
+        // printf("temp: %d,%d\n", temp.q, temp.r);
         // r = y e q = x
         arena->mapa[temp.r][temp.q].ocupado = exercito;
         /*
@@ -242,7 +243,10 @@ void printArena(Arena *arena) {
     int i, j;
     for (i = 0; i < m; i++) {
         for (j = 0; j < n; j++) {
-            printf("%2d", arena->mapa[i][j].ocupado);
+            if (arena->mapa[i][j].ocupado == -1)
+                printf("%2c", '-');
+            else
+                printf("%2d", arena->mapa[i][j].ocupado);
         }
         printf("\n");
         for (int k = 0; k <= i; k++)
@@ -250,9 +254,9 @@ void printArena(Arena *arena) {
     }
 }
 
-void destroiArena(Arena *arena, int m) {
+void destroiArena(Arena *arena) {
     int i, j;
-    for (i = 0; i < m; i++)
+    for (i = 0; i < arena->m; i++)
         free(arena->mapa[i]);
     free(arena->mapa);
     free(arena->ativos);

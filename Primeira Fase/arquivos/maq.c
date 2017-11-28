@@ -364,27 +364,34 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 
 					/* Pega a posição da matriz solicitada */
 					axial destino = move(arena, atual, dir);
-					if (arg.val.ac == 0) { // Mover
-						arena->mapa[y][x].ocupado = -1;
-						arena->mapa[destino.r][destino.q].ocupado = m->equipe;
 
-						/* Atualiza a posicao da maquina */
-						m->xpos = destino.q;
-						m->ypos = destino.r;
+					if (arg.val.ac == 0) { // Mover
+						/* Se a pos solicitada nao estiver ocupada, move o robo */
+						if (arena->mapa[destino.r][destino.q].ocupado != -1) {
+							arena->mapa[y][x].ocupado = -1;
+							arena->mapa[destino.r][destino.q].ocupado = m->equipe;
+
+							/* Atualiza a posicao da maquina */
+							m->xpos = destino.q;
+							m->ypos = destino.r;
+						}
 					}
 					else if (arg.val.ac == 1) { // Recolher
+
 						if (arena->mapa[destino.r][destino.q].cristais > 0) {
 							arena->mapa[destino.r][destino.q].cristais--;
 							m->cristais++;
 						}
 					}
 					else if (arg.val.ac == 2) { // Depositar
+
 						if (m->cristais > 0) {
 							arena->mapa[destino.r][destino.q].cristais++;
 							m->cristais--;
 						}
 					}
 					else if (arg.val.ac == 3) { // Atacar
+
 						printf("me ajuda jesus\n");
 					}
 				}

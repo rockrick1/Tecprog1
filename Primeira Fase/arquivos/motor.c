@@ -59,7 +59,6 @@ void insereRobos(int exercito, int x, int  y) {
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
         // r = y e q = x
-        printf("ble %d\n", exercito);
         maquinas[exercito][i] = cria_maquina(p, temp.q, temp.r, exercito);
     }
 }
@@ -69,9 +68,10 @@ int main() {
     inicia();
     arena = criaArena(10, 10);
     insereRobos(1, 2, 2);
-    printf("yay\n");
+    insereRobos(2, 7, 7);
     // atualiza(10);
     printArena(arena);
+    destroiArena(arena);
     destroiTudo();
     return 0;
 }

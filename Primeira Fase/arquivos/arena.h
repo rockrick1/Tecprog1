@@ -61,4 +61,4 @@ void removeExercito(Arena *arena, int exercito);
 
 void printArena(Arena *arena);
 
-void destroiArena(Arena *arena, int m);
+void destroiArena(Arena *arena);
