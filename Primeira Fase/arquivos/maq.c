@@ -348,6 +348,10 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 					empilha(pil, res);
 				}
 				break;
+			/* STS faz uma chamada ao sistema principal, mais precisamente à
+			// arena, fazendo com que o robô se mova, recolha ou deposite um
+			// cristal, ou ataque outro robo, dada a ação como argumento, e
+			// a direção retirada do topo da pilha */
 			case STS:
 				tmp = desempilha(pil);
 				if (tmp.t == DIRECAO && arg.t == ACAO) {

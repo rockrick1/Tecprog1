@@ -179,7 +179,7 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
     arena->mapa[x][y].terreno = BASE;
     arena->mapa[x][y].cristais = 0;
-    arena->mapa[x][y].ocupado = exercito;
+    arena->mapa[x][y].ocupado = exercito;/*
     if (exer == 0) {
         fprintf(display, "rob baseA.png\n");
         fflush(display);
@@ -193,14 +193,14 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
         fprintf(display, "%d %d %d %d %d\n", rob+6, -1, -1, x, y);
         fflush(display);
         rob++;
-    }
+    }*/
     /* Insere 6 robôs ao redor dela e registra
     // eles na matriz de maquinas */
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
         // r = y e q = x
         arena->mapa[temp.r][temp.q].ocupado = exercito;
-
+        /*
         if (exer == 0) {
             fprintf(display, "rob GILEAD_A.png\n");
             fflush(display);
@@ -214,7 +214,7 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
             fprintf(display, "%d %d %d %d %d\n", (rob + 6), -1, -1, temp.r, temp.q);
             fflush(display);
             rob++;
-        }
+        }*/
     }
     exer++;
 

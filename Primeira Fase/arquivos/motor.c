@@ -14,7 +14,7 @@ Arena *arena; /* Gloriosa arena */
 INSTR *p; /* kill me */
 
 void inicia() {
-    maquinas = malloc(sizeof(Maquina**));
+    maquinas = malloc(MAX_EXERCITOS*sizeof(Maquina**));
     for (int i = 0; i < MAX_EXERCITOS; i++)
         maquinas[i] = malloc(MAX_ROBOS*sizeof(Maquina*));
 }
@@ -41,9 +41,13 @@ void atualiza(int instr) {
 
 void destroiTudo() {
     int i, j;
-    for (i = 0; i < MAX_EXERCITOS; i++)
-        for (int j = 0; j < MAX_ROBOS; j++)
+    for (i = 0; i < MAX_EXERCITOS; i++) {
+        for (int j = 0; maquinas[i][j] != NULL; j++) {
             destroi_maquina(maquinas[i][j]);
+        }
+        free(maquinas[i]);
+    }
+    free(maquinas);
 }
 
 void insereRobos(int exercito, int x, int  y) {
@@ -55,18 +59,20 @@ void insereRobos(int exercito, int x, int  y) {
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
         // r = y e q = x
+        printf("ble %d\n", exercito);
         maquinas[exercito][i] = cria_maquina(p, temp.q, temp.r, exercito);
     }
 }
 
 int main() {
     srand(time(NULL));
-    // inicia();
+    inicia();
     arena = criaArena(10, 10);
     insereRobos(1, 2, 2);
+    printf("yay\n");
     // atualiza(10);
     printArena(arena);
-    // destroiTudo();
+    destroiTudo();
     return 0;
 }
 
