@@ -7,11 +7,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "maq.h"
+#include "fibo.h"
 
 Maquina ***maquinas; /* Matriz com todas as maquinas */
 Arena *arena; /* Gloriosa arena */
-INSTR *p;
 
 
 void inicia() {
@@ -33,7 +32,9 @@ void atualiza(int instr) {
             // Alem disso, o exercito precisa estar ativo */
             if (arena->ativos[i]) {
                 if (maquinas[i][j]->no <= 0) {
+                    // printf("minha pos: %d-%d\n\n", maquinas[i][j]->ypos, maquinas[i][j]->xpos);
                     exec_maquina(maquinas[i][j], instr, arena);
+                    // printf("minha pos depois: %d-%d\n\n", maquinas[i][j]->ypos, maquinas[i][j]->xpos);
                 }
                 else {
                     maquinas[i][j]->no--;
@@ -66,12 +67,12 @@ void insereRobos(int exercito, int x, int  y) {
     base.q = x;
     base.r = y;
     /* Atualiza o mapa */
-    insereExercito(arena, p, exercito, x, y);
+    insereExercito(arena, robo, exercito, x, y);
 
     for (i = 0; i < 6; i++) {
         temp = move(arena, base, i);
-        // r = y e q = x
-        maquinas[exercito][i] = cria_maquina(p, temp.q, temp.r, exercito);
+        // q = x, r = y
+        maquinas[exercito][i] = cria_maquina(robo, temp.q, temp.r, exercito);
     }
 }
 /***************************************************************************/
@@ -83,12 +84,14 @@ int main() {
 
     /* NAO USAR VALOR IMPAR NA SEGUNDA COORDENADA DE TAMANHO (WTF) */
     arena = criaArena(12, 12);
+    arena->mapa[4][4].cristais = 1;
 
-    insereRobos(1, 2, 2);
-    insereRobos(2, 5, 5);
+    insereRobos(3, 2, 2);
+    insereRobos(4, 5, 5);
     printArena(arena);
-    removeExercito(arena, 2);
-    // atualiza(10);
+    // for (int i = 0; i < 3; i++)
+        // atualiza(15);
+    exec_maquina(maquinas[3][3], 100, arena);
     printArena(arena);
     destroiTudo();
     return 0;

@@ -72,24 +72,25 @@ void iniciaArena(Arena *arena) {
             else { /* a == 3 */
                 arena->mapa[i][j].terreno = RIO;
             }
-        }
 
-        /*define cristais*/
-        int b = rand() % 2;
-        if (b == 1) {
-            /*50% de ter 1*/
-            cristais(arena, 1, i, j);
-
-            b = rand() % 2;
-            if (b == 1) {
-                /* dentre esses 50% de ter 2*/
-                cristais(arena, 2, i, j);
-                b = rand() % 2;
-                if (b == 1) {
-                    /*dentre esses 50% de ter 3*/
-                    cristais(arena, 3, i, j);
-                }
-            }
+            // /* define cristais */
+            // int b = rand() % 10;
+            // if (b == 1) {
+            //     /*50% de ter 1*/
+            //     cristais(arena, 1, i, j);
+            //
+            //     b = rand() % 2;
+            //     if (b == 1) {
+            //         /* dentre esses 50% de ter 2*/
+            //         cristais(arena, 2, i, j);
+            //
+            //         b = rand() % 2;
+            //         if (b == 1) {
+            //             /*dentre esses 50% de ter 3*/
+            //             cristais(arena, 3, i, j);
+            //         }
+            //     }
+            // }
         }
     }
 }
@@ -178,7 +179,8 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
 
     arena->mapa[x][y].terreno = BASE;
     arena->mapa[x][y].cristais = 0;
-    arena->mapa[x][y].ocupado = exercito;/*
+    arena->mapa[x][y].ocupado = exercito;
+    /*
     if (exer == 0) {
         fprintf(display, "rob baseA.png\n");
         fflush(display);
@@ -216,7 +218,6 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
         }*/
     }
     exer++;
-
 }
 
 void removeExercito(Arena *arena, int exercito) {
@@ -240,7 +241,11 @@ void printArena(Arena *arena) {
         for (int k = 0; k < i; k++)
             printf(" ");
         for (j = 0; j < n; j++) {
-            if (arena->mapa[i][j].ocupado == -1)
+            if (arena->mapa[i][j].terreno == BASE)
+                printf("%2c", 'B');
+            else if (arena->mapa[i][j].cristais > 0)
+                printf("%2c", 'c');
+            else if (arena->mapa[i][j].ocupado == -1)
                 printf("%2c", '-');
             else
                 printf("%2d", arena->mapa[i][j].ocupado);

@@ -323,6 +323,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 				exec->topo -= arg.val.n;
 				break;
 			case END:
+				ip = 0;
 				return;
 			/* PRN utiliza uma função que interpreta o tipo do Operando para
 			// imprimi-lo como string */
@@ -360,16 +361,22 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 					int y = m->ypos;
 
 					axial atual;
-					atual.q = x; atual.r = y;
+					atual.q = x;
+					atual.r = y;
 
 					/* Pega a posição da matriz solicitada */
 					axial destino = move(arena, atual, dir);
 
 					if (arg.val.ac == 0) { // Mover
 						/* Se a pos solicitada nao estiver ocupada, move o robo */
-						if (arena->mapa[destino.r][destino.q].ocupado != -1) {
-							arena->mapa[y][x].ocupado = -1;
+						if (arena->mapa[destino.r][destino.q].ocupado == -1) {
+							arena->mapa[atual.r][atual.q].ocupado = -1;
 							arena->mapa[destino.r][destino.q].ocupado = m->equipe;
+							
+							/* Se for um terreno 'ruim', o robo precisara de
+							// mais açoes para sair dele (veja maq.h)*/
+							if (arena->mapa[destino.r][destino.q].terreno == RIO)
+								m->no++;
 
 							/* Atualiza a posicao da maquina */
 							m->xpos = destino.q;

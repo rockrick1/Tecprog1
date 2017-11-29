@@ -1,37 +1,19 @@
 #include <stdio.h>
-#include "arena.h"
+#include "fibo.h"
 
 
-INSTR fibo[] = {
-	{PUSH, 1},
-	{DUP, 0},
-	{STO, 0},
-	{STO, 1},
-	{PUSH, 10},
-	{STO, 2},
-	{RCL, 0},
-	{RCL, 1},
-	{DUP, 0},
-	{STO, 0},
-	{ADD, 0},
-	{DUP, 0},
-	{STO, 1},
-	{PRN, 0},
-	{RCL, 2},
-	{PUSH, 1},
-	{SUB, 0},
-	{DUP, 0},
-	{STO, 2},
-	{PUSH, 0},
-	{EQ, 0},
-	{JIF, 6},
-	{END, 0},
+INSTR robo[] = {
+	{PUSH, {DIRECAO, 3}},
+	{STS,  {ACAO, 0}},
+	{PUSH, {DIRECAO, 2}},
+	{STS,  {ACAO, 0}},
+	{PUSH, {DIRECAO, 2}},
+	{STS,  {ACAO, 1}}, // recolhe
+	{PUSH, {DIRECAO, 3}},
+	{STS,  {ACAO, 0}},
+	{PUSH, {DIRECAO, 4}},
+	{STS,  {ACAO, 0}},
+	{PUSH, {DIRECAO, 4}},
+	{STS,  {ACAO, 2}}, // deposita
+	{END,  {NUM, 0}}
 };
-
-
-int main(int ac, char **av) {
-    Maquina *maq = cria_maquina(fibo);
-    exec_maquina(maq, 1000);
-    destroi_maquina(maq);
-    return 0;
-}
