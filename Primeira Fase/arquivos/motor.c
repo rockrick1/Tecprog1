@@ -15,8 +15,9 @@ Arena *arena; /* Gloriosa arena */
 
 void inicia() {
     maquinas = malloc(MAX_EXERCITOS*sizeof(Maquina**));
-    for (int i = 0; i < MAX_EXERCITOS; i++)
+    for (int i = 0; i < MAX_EXERCITOS; i++) {
         maquinas[i] = malloc(MAX_ROBOS*sizeof(Maquina*));
+    }
 }
 
 
@@ -62,17 +63,17 @@ void destroiTudo() {
 /* Essa função é analogas à de inserir exercitos, mas
 // alem de executá-la, elaa também atualiza a matriz de maquinas */
 void insereRobos(int exercito, int x, int  y) {
-    int i;
+    int j;
     axial base, temp;
     base.q = x;
     base.r = y;
     /* Atualiza o mapa */
     insereExercito(arena, robo, exercito, x, y);
 
-    for (i = 0; i < 6; i++) {
-        temp = move(arena, base, i);
+    for (j = 0; j < 6; j++) {
+        temp = move(arena, base, j);
         // q = x, r = y
-        maquinas[exercito][i] = cria_maquina(robo, temp.q, temp.r, exercito);
+        maquinas[exercito][j] = cria_maquina(robo, temp.q, temp.r, exercito);
     }
 }
 /***************************************************************************/
@@ -83,7 +84,7 @@ int main() {
     inicia();
 
     /* NAO USAR VALOR IMPAR NA SEGUNDA COORDENADA DE TAMANHO (WTF) */
-    arena = criaArena(12, 12);
+    arena = criaArena(15, 15);
     arena->mapa[4][4].cristais = 1;
 
     insereRobos(3, 2, 2);
