@@ -65,6 +65,7 @@ Maquina *cria_maquina(INSTR *p, int x, int y, int equipe) {
 	m->xpos = x;
 	m->ypos = y;
 	m->equipe = equipe;
+	m->vivo = 0; /* Começa mortinho */
 
 	m->ip = 0;
 	m->bp = 0;
@@ -372,7 +373,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 						if (arena->mapa[destino.r][destino.q].ocupado == -1) {
 							arena->mapa[atual.r][atual.q].ocupado = -1;
 							arena->mapa[destino.r][destino.q].ocupado = m->equipe;
-							
+
 							/* Se for um terreno 'ruim', o robo precisara de
 							// mais açoes para sair dele (veja maq.h)*/
 							if (arena->mapa[destino.r][destino.q].terreno == RIO)
