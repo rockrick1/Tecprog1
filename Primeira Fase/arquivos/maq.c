@@ -322,6 +322,8 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 			case FRE:
 				exec->topo -= arg.val.n;
 				break;
+			/* END agora volta o ip para 0 para a maquina pode ser executada
+			// mais de uma vez, como por exemplo rodando varios 'atualiza' */
 			case END:
 				ip = 0;
 				return;
@@ -372,7 +374,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 						if (arena->mapa[destino.r][destino.q].ocupado == -1) {
 							arena->mapa[atual.r][atual.q].ocupado = -1;
 							arena->mapa[destino.r][destino.q].ocupado = m->equipe;
-							
+
 							/* Se for um terreno 'ruim', o robo precisara de
 							// mais açoes para sair dele (veja maq.h)*/
 							if (arena->mapa[destino.r][destino.q].terreno == RIO)
@@ -396,10 +398,6 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 							arena->mapa[destino.r][destino.q].cristais++;
 							m->cristais--;
 						}
-					}
-					else if (arg.val.ac == 3) { // Atacar
-
-						printf("me ajuda jesus\n");
 					}
 				}
 		}

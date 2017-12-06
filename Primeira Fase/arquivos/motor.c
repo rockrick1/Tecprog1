@@ -32,9 +32,7 @@ void atualiza(int instr) {
             // Alem disso, o exercito precisa estar ativo */
             if (arena->ativos[i]) {
                 if (maquinas[i][j]->no <= 0) {
-                    // printf("minha pos: %d-%d\n\n", maquinas[i][j]->ypos, maquinas[i][j]->xpos);
                     exec_maquina(maquinas[i][j], instr, arena);
-                    // printf("minha pos depois: %d-%d\n\n", maquinas[i][j]->ypos, maquinas[i][j]->xpos);
                 }
                 else {
                     maquinas[i][j]->no--;
@@ -59,8 +57,8 @@ void destroiTudo() {
 }
 
 
-/* Essa função é analogas à de inserir exercitos, mas
-// alem de executá-la, elaa também atualiza a matriz de maquinas */
+/* Essa função é analoga à de inserir exercitos, mas
+// alem de executá-la, ela também atualiza a matriz de maquinas */
 void insereRobos(int exercito, int x, int  y) {
     int i;
     axial base, temp;
