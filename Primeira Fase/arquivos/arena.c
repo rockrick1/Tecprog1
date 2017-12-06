@@ -73,24 +73,24 @@ void iniciaArena(Arena *arena) {
                 arena->mapa[i][j].terreno = RIO;
             }
 
-            // /* define cristais */
-            // int b = rand() % 10;
-            // if (b == 1) {
-            //     /*50% de ter 1*/
-            //     cristais(arena, 1, i, j);
-            //
-            //     b = rand() % 2;
-            //     if (b == 1) {
-            //         /* dentre esses 50% de ter 2*/
-            //         cristais(arena, 2, i, j);
-            //
-            //         b = rand() % 2;
-            //         if (b == 1) {
-            //             /*dentre esses 50% de ter 3*/
-            //             cristais(arena, 3, i, j);
-            //         }
-            //     }
-            // }
+            /* define cristais */
+            int b = rand() % 10;
+            if (b == 1) {
+                /*10% de ter 1*/
+                cristais(arena, 1, i, j);
+
+                b = rand() % 2;
+                if (b == 1) {
+                    /* dentre esses 50% de ter 2*/
+                    cristais(arena, 2, i, j);
+
+                    b = rand() % 2;
+                    if (b == 1) {
+                        /*dentre esses 50% de ter 3*/
+                        cristais(arena, 3, i, j);
+                    }
+                }
+            }
         }
     }
 }

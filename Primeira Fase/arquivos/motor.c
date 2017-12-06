@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "fibo.h"
+#include "fibo.h" /* Aqui temos o vetor de instruçoões dos robos  (nome fibo temporario)*/
 
 Maquina ***maquinas; /* Matriz com todas as maquinas */
 Arena *arena; /* Gloriosa arena */
@@ -15,8 +15,12 @@ Arena *arena; /* Gloriosa arena */
 
 void inicia() {
     maquinas = malloc(MAX_EXERCITOS*sizeof(Maquina**));
-    for (int i = 0; i < MAX_EXERCITOS; i++)
+    for (int i = 0; i < MAX_EXERCITOS; i++) {
         maquinas[i] = malloc(MAX_ROBOS*sizeof(Maquina*));
+        for (int j = 0; j < MAX_ROBOS; j++) {
+            maquinas[i][j] = cria_maquina(robo, -1, -1, i); // i é o exercito
+        }
+    }
 }
 
 
@@ -26,7 +30,8 @@ void atualiza(int instr) {
     /* Roda todas as maquinas de um exercito por vez, depois vai pra outro
     // exercito */
     for (int i = 0; i < MAX_EXERCITOS; i++) {
-        for (int j = 0; maquinas[i][j] != NULL; j++) {
+        /* Executa todas as maquinas vivas daquele exercito */
+        for (int j = 0; maquinas[i][j]->vivo; j++) {
             /* se o nivel de ocupação for maior que 0, não executa a instrução
             // e no--.
             // Alem disso, o exercito precisa estar ativo */
@@ -47,7 +52,7 @@ void atualiza(int instr) {
 void destroiTudo() {
     int i, j;
     for (i = 0; i < MAX_EXERCITOS; i++) {
-        for (int j = 0; maquinas[i][j] != NULL; j++) {
+        for (int j = 0; j < MAX_ROBOS; j++) {
             destroi_maquina(maquinas[i][j]);
         }
         free(maquinas[i]);
@@ -60,17 +65,19 @@ void destroiTudo() {
 /* Essa função é analoga à de inserir exercitos, mas
 // alem de executá-la, ela também atualiza a matriz de maquinas */
 void insereRobos(int exercito, int x, int  y) {
-    int i;
+    int j;
     axial base, temp;
     base.q = x;
     base.r = y;
     /* Atualiza o mapa */
     insereExercito(arena, robo, exercito, x, y);
 
-    for (i = 0; i < 6; i++) {
-        temp = move(arena, base, i);
-        // q = x, r = y
-        maquinas[exercito][i] = cria_maquina(robo, temp.q, temp.r, exercito);
+    for (j = 0; j < 6; j++) {
+        temp = move(arena, base, j);
+        /* Inicia a maquina */
+        maquinas[exercito][j]->vivo = 1;
+        maquinas[exercito][j]->xpos = temp.q;
+        maquinas[exercito][j]->ypos = temp.r;
     }
 }
 /***************************************************************************/
@@ -81,7 +88,7 @@ int main() {
     inicia();
 
     /* NAO USAR VALOR IMPAR NA SEGUNDA COORDENADA DE TAMANHO (WTF) */
-    arena = criaArena(12, 12);
+    arena = criaArena(15, 15);
     arena->mapa[4][4].cristais = 1;
 
     insereRobos(3, 2, 2);

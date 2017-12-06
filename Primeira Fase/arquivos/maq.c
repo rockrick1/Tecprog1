@@ -65,6 +65,7 @@ Maquina *cria_maquina(INSTR *p, int x, int y, int equipe) {
 	m->xpos = x;
 	m->ypos = y;
 	m->equipe = equipe;
+	m->vivo = 0; /* Começa mortinho */
 
 	m->ip = 0;
 	m->bp = 0;
