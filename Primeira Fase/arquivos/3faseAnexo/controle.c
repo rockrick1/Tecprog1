@@ -47,7 +47,7 @@ int main() {
   rb[0].pj = 14;
   rb[0].vi = -1;
   rb[0].vj =  1;
-  
+
   rb[1].pi = 10;
   rb[1].pj = 11;
   rb[1].vi =  1;
@@ -57,7 +57,7 @@ int main() {
 	fprintf(stderr,"Não encontrei o programa de exibição\n");
 	return 1;
   }
-  
+
   /* cria dois robôs */
   fprintf(display, "rob GILEAD_A.png\nrob GILEAD_B.png\n");
 

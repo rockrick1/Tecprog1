@@ -37,13 +37,16 @@ class Robô(pg.sprite.Sprite):
     """
     Representa um Robô, possui uma imagem
     """
-    def __init__(s, img):
+    def __init__(s, img, x, y):
         """
         Construtor, img é o nome do arquivo com a imagem
         """
         pg.sprite.Sprite.__init__(s)
         s.image = pg.image.load(img)
         s.rect = s.image.get_rect()
+        # Posição do robô
+        s.x = x
+        s.y = y
 
     def draw(s, i,j):
         """
@@ -110,7 +113,7 @@ class cell:
             (s.cx-l, s.cy+L/2),
             (s.cx-l, s.cy-L/2),
             )
-        
+
     def draw(s) :
         """
         Desenha a célula
@@ -146,9 +149,13 @@ for line in fileinput.input():
         break
 
     # linha começando com 'rob', inclui um robô,
-    # o segundo argumento na linha é a imagem   
-    if r[0] == 'rob':
-        robs.append(Robô(r[1]))
+    # o segundo argumento na linha é a imagem
+    # Agora tambem desenha o robô :D
+    if r[0] == 'rob': # Agora o robo recebe suas coordenada na criação
+        robs.append(Robô(r[1], int(r[2]), int(r[3])))
+        # Desenha o ultimo robo da lista
+        tmp = len(robs) - 1
+        robs[tmp].draw(robs[tmp].y, robs[tmp].x)
         continue
 
     # linha começando com 'base', inclui uma base,
@@ -168,7 +175,7 @@ for line in fileinput.input():
             base[bi].draw(pi,pj)
 
     # linha de movimentação: começa com move
-    # robô, corrdenadas originais, coordenadas finais
+    # robô, corrdenadas de origem, coordenadas de destino
     # OBS: precisei fazer o metodo de comecar com string e
     # depois tirá-la do array pois as linhas adicionais
     # que envolvessem inteiros tentavam ser colocadas
@@ -176,11 +183,19 @@ for line in fileinput.input():
     # ValueError: not enough values to unpack (expected 5, got 3)
     if r[0] == 'move':
         r.remove(r[0])
-        ri, oi, oj, di, dj = list(map(int, r))
+        # Aqui optamos por remover o ri uma vez que vimos ser mais facil
+        # apenas procurar pelo robo com a mesma posição do que queriamos
+        # mover
+        oi, oj, di, dj = list(map(int, r))
 
     # desenha o robô na célula de destino
-        if 0 <= di  < W and 0 <= dj < H and ri < len(robs):
-            robs[ri].draw(di,dj)
+        if 0 <= di < W and 0 <= dj < H:
+            # Procura o robo requisitado no vetor de robos e atualiza sua pos
+            for i in range(len(robs)):
+                if oi == robs[i].y and oj == robs[i].x:
+                    robs[i].draw(di,dj)
+                    robs[i].x = dj
+                    robs[i].y = di
 
     # redesenha a célula original (apaga o robô)
     ### inverti a ordem de execução para corrigir um bug no

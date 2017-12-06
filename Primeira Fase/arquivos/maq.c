@@ -368,7 +368,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 					atual.r = y;
 
 					/* Pega a posição da matriz solicitada */
-					axial destino = move(arena, atual, dir);
+					axial destino = move(arena, atual, dir, 1);
 
 					if (arg.val.ac == 0) { // Mover
 						/* Se a pos solicitada nao estiver ocupada, move o robo */

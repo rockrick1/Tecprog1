@@ -30,11 +30,11 @@ typedef struct {
 
 Arena *criaArena(int m, int n);
 
-/*função que o gubi pediu, img ainda esta confuso quanto ao funcionamento*/
-//void base(char img, int i , int j, Arena *arena);
+/* Seta a posição i j para uma base com identificador do exercito */
+void insereBase(Arena *arena, int i, int j, int exercito);
 
-/*funçao que o gubi pediu*/
-void cristais(Arena *arena, int n, int i, int j);
+/* Seta o numero de cristais na posição i j para n */
+void insereCristais(Arena *arena, int n, int i, int j);
 
 /*coloca terreno e cristais*/
 void iniciaArena(Arena *arena);
@@ -50,8 +50,8 @@ cube axial_to_cube(axial a);
       5   1
       4   2
         3
-*/
-axial move(Arena *arena, axial a, int dir);
+E atualiza o display caso mover = 1*/
+axial move(Arena *arena, axial a, int dir, int mover);
 
 /* Insere uma base do com id do exercito na posição (m,n) do mapa */
 void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y);

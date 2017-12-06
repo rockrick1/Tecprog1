@@ -73,7 +73,7 @@ void insereRobos(int exercito, int x, int  y) {
     insereExercito(arena, robo, exercito, x, y);
 
     for (j = 0; j < 6; j++) {
-        temp = move(arena, base, j);
+        temp = move(arena, base, j, 0);
         /* Inicia a maquina */
         maquinas[exercito][j]->vivo = 1;
         maquinas[exercito][j]->xpos = temp.q;
@@ -87,16 +87,15 @@ int main() {
     srand(time(NULL));
     inicia();
 
-    /* NAO USAR VALOR IMPAR NA SEGUNDA COORDENADA DE TAMANHO (WTF) */
     arena = criaArena(15, 15);
-    arena->mapa[4][4].cristais = 1;
+    // arena->mapa[4][4].cristais = 1;
 
-    insereRobos(3, 2, 2);
-    insereRobos(4, 5, 5);
+    insereRobos(0, 2, 2);
+    insereRobos(1, 5, 5);
     printArena(arena);
     // for (int i = 0; i < 3; i++)
         // atualiza(15);
-    exec_maquina(maquinas[3][3], 100, arena);
+    exec_maquina(maquinas[0][3], 100, arena);
     printArena(arena);
     destroiTudo();
     return 0;

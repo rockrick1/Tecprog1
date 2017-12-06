@@ -10,13 +10,13 @@
 
 
 FILE *display;
-int exer;
+short int EXER; // Servirá para desenhar exercitos diferentes de forma diferente
 
 Arena *criaArena(int m, int n) {
     int i;
     Arena *arena = malloc(sizeof(Arena));
 
-    exer = 0;
+    EXER = 0;
 
     arena->m = m;
     arena->n = n;
@@ -24,27 +24,27 @@ Arena *criaArena(int m, int n) {
     arena->ativos = malloc(MAX_EXERCITOS * sizeof(int));
 
     for (i = 0; i < MAX_EXERCITOS; i++)
-        arena->ativos[i] = -1;
+        arena->ativos[i] = 0;
 
     arena->mapa = malloc(m * sizeof(Celula*));
     for (i = 0; i < m; i++)
         arena->mapa[i] = malloc(n * sizeof(Celula));
 
     iniciaArena(arena);
-    // display = popen("./apres", "w");
+    display = popen("./apres", "w");
+    // display = fopen("./display", "w");
     return arena;
 }
 
 
-/*com a parte grafica, a img que vem como parametro é a imagem da base
-void base(char img, int i, int j, Arena *arena){
+void insereBase(Arena *arena, int i, int j, int exercito) {
     arena->mapa[i][j].terreno = BASE;
     arena->mapa[i][j].cristais = 0;
+    arena->mapa[i][j].ocupado = exercito;
+}
 
-}*/
-
-/* função que o gubi pediu, com mais um parametro que é o arena */
-void cristais(Arena *arena, int n, int i, int j){
+/* Seta o numero de cristais em i j para n */
+void insereCristais(Arena *arena, int n, int i, int j){
     arena->mapa[i][j].cristais = n;
 }
 
@@ -61,7 +61,7 @@ void iniciaArena(Arena *arena) {
             arena->mapa[i][j].cristais = 0;
             arena->mapa[i][j].ocupado = -1;
 
-             /*d efinição dos terrenos */
+             /* definição dos terrenos */
             int a = rand() % 4;
             if (a == 0 || a == 1) {
                 arena->mapa[i][j].terreno = ESTRADA;
@@ -76,18 +76,18 @@ void iniciaArena(Arena *arena) {
             /* define cristais */
             int b = rand() % 10;
             if (b == 1) {
-                /*10% de ter 1*/
-                cristais(arena, 1, i, j);
+                /* 10% de ter 1 */
+                insereCristais(arena, 1, i, j);
 
                 b = rand() % 2;
                 if (b == 1) {
-                    /* dentre esses 50% de ter 2*/
-                    cristais(arena, 2, i, j);
+                    /* dentre esses 50% de ter 2 */
+                    insereCristais(arena, 2, i, j);
 
                     b = rand() % 2;
                     if (b == 1) {
-                        /*dentre esses 50% de ter 3*/
-                        cristais(arena, 3, i, j);
+                        /* dentre esses 50% de ter 3 */
+                        insereCristais(arena, 3, i, j);
                     }
                 }
             }
@@ -117,7 +117,7 @@ cube axial_to_cube(axial a) {
       4   2
         3
 */
-axial move(Arena *arena, axial a, int dir) {
+axial move(Arena *arena, axial a, int dir, int mover) {
     int m = arena->m;
     int n = arena->n;
     /* Converte a coordenada quadrada para cubica para fazer as alterações */
@@ -152,6 +152,9 @@ axial move(Arena *arena, axial a, int dir) {
     if (temp.r < 0 || temp.q < 0 || temp.r >= m || temp.q >= n) {
         return a;
     }
+    /* Atualiza o display, caso o robo realmente estja sendo movido */
+    if (mover)
+        fprintf(display, "move %d %d %d %d\n", a.q, a.r, temp.q, temp.r);
 
     return temp;
 }
@@ -164,60 +167,39 @@ void insereExercito(Arena *arena, INSTR *p, int exercito, int x, int y) {
     axial base, temp;
     base.r = y;
     base.q = x;
-    int rob;
-    rob=0;
-    /* Insere o exercito no vetor de ativos.
-    // i é a primeira posição de ativos com -1 */
-    for (i = 0; arena->ativos[i] != -1; i++) {
-        arena->ativos[exercito] = 1;
-    }
 
-    /* Insere a Base no mapa */
+    /* "Ativa" o exercito no vetor de ativos */
+    arena->ativos[exercito] = 1;
 
-    //base(img, x, y,arena);
-    /*falta a imagem, mas pra isso é necessário a parte grafica*/
+    /* Insere a base na arena */
+    insereBase(arena, x, y, exercito);
 
-    arena->mapa[x][y].terreno = BASE;
-    arena->mapa[x][y].cristais = 0;
-    arena->mapa[x][y].ocupado = exercito;
-    /*
-    if (exer == 0) {
-        fprintf(display, "rob baseA.png\n");
-        fflush(display);
-        fprintf(display, "%d %d %d %d %d\n", rob, -1, -1, x, y);
-        fflush(display);
-        rob++;
+    /* Desenha ela */
+    if (EXER == 0) {
+        fprintf(display, "base baseA.png\n");
+        fprintf(display, "drawbase %d %d %d\n", exercito, x, y);
     }
     else {
-        fprintf(display, "rob baseB.png\n");
-        fflush(display);
-        fprintf(display, "%d %d %d %d %d\n", rob+6, -1, -1, x, y);
-        fflush(display);
-        rob++;
-    }*/
-    /* Insere 6 robôs ao redor dela e registra
-    // eles na matriz de maquinas */
+        fprintf(display, "base baseB.png\n");
+        fprintf(display, "drawbase %d %d %d\n", exercito, x, y);
+    }
+
+    /* Insere 6 robôs ao redor dela e desenha eles. O motor.c que
+    // registrará elas na matriz de maquinas */
     for (i = 0; i < 6; i++) {
-        temp = move(arena, base, i);
+        temp = move(arena, base, i, 0);
         // r = y e q = x
         arena->mapa[temp.r][temp.q].ocupado = exercito;
-        /*
-        if (exer == 0) {
-            fprintf(display, "rob GILEAD_A.png\n");
-            fflush(display);
-            fprintf(display, "%d %d %d %d %d\n", rob, -1, -1, temp.r, temp.q);
-            fflush(display);
-            rob++;
+
+        if (EXER == 0) {
+            fprintf(display, "rob GILEAD_A.png %d %d\n", temp.q, temp.r);
         }
         else {
-            fprintf(display, "rob GILEAD_B.png\n");
-            fflush(display);
-            fprintf(display, "%d %d %d %d %d\n", (rob + 6), -1, -1, temp.r, temp.q);
-            fflush(display);
-            rob++;
-        }*/
+            fprintf(display, "rob GILEAD_B.png %d %d\n", temp.q, temp.r);
+        }
     }
-    exer++;
+    fflush(display);
+    EXER++;
 }
 
 void removeExercito(Arena *arena, int exercito) {
@@ -255,6 +237,8 @@ void printArena(Arena *arena) {
 }
 
 void destroiArena(Arena *arena) {
+    pclose(display);
+    // fclose(display);
     int i;
     for (i = 0; i < arena->m; i++) {
         free(arena->mapa[i]);
