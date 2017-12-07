@@ -130,28 +130,28 @@ axial move(Arena *arena, axial a, int dir, int mover) {
     /* Converte a coordenada quadrada para cubica para fazer as alterações */
     cube c = axial_to_cube(a);
     if (dir == 0) {
-        c.y++;
+        c.x++;
         c.z--;
     }
     else if (dir == 1) {
         c.x++;
-        c.z--;
+        c.y--;
     }
     else if (dir == 2) {
-        c.x++;
         c.y--;
+        c.z++;
     }
     else if (dir == 3) {
-        c.y--;
+        c.x--;
         c.z++;
     }
     else if (dir == 4) {
         c.x--;
-        c.z++;
+        c.y++;
     }
     else { /* dir == 5 */
-        c.x--;
         c.y++;
+        c.z--;
     }
     /* Se sair do mapa, não anda.
     // Devolve a coordenada convertida de volta para quadrada */

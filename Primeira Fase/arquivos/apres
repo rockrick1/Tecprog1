@@ -122,7 +122,7 @@ class cell:
             (s.cx-l, s.cy-L/2),
             )
 
-    def draw(s) :
+    def draw(s):
         """
         Desenha a célula
         """
@@ -219,7 +219,6 @@ for line in fileinput.input():
         ti, tj = list(map(int, r))
         arena[ti][tj].drawTerreno(tipo, ti, tj)
 
-
     # linha de movimentação: começa com move
     # robô, corrdenadas de origem, coordenadas de destino
     # OBS: precisei fazer o metodo de comecar com string e
@@ -228,11 +227,12 @@ for line in fileinput.input():
     # nessa list (por estar if), dando o seguinte erro na exec:
     # ValueError: not enough values to unpack (expected 5, got 3)
     if r[0] == 'move':
+        pg.time.wait(500)
         r.remove(r[0])
         # Aqui optamos por remover o ri uma vez que vimos ser mais facil
         # apenas procurar pelo robo com a mesma posição do que queriamos
         # mover
-        oi, oj, di, dj = list(map(int, r))
+        oj, oi, dj, di = list(map(int, r))
 
     # desenha o robô na célula de destino
         if 0 <= di < W and 0 <= dj < H:
@@ -256,7 +256,6 @@ for line in fileinput.input():
             arena[oi][oj].draw()
 
     # tempo de espera para atualização, apenas para testes
-    pg.time.wait(5)
 
     atu()
 
