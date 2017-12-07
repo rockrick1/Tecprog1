@@ -386,6 +386,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 
 							else if (arena->mapa[destino.r][destino.q].terreno == LAVA)
 								m->hp--;
+							printf("meu hp %d\n", m->hp);
 
 							/* Atualiza a posicao da maquina */
 							m->xpos = destino.q;

@@ -62,21 +62,22 @@ void iniciaArena(Arena *arena) {
             arena->mapa[i][j].cristais = 0;
             arena->mapa[i][j].ocupado = -1;
 
-             /* definição dos terrenos */
-            int a = rand() % 5;
-            if (a == 0 || a == 1) {
+            /* definição dos terrenos */
+            /* 40% estrada, 30% montanha, 20% rio e 10% lava */
+            int a = rand() % 10;
+            if (a <= 3) {
                 arena->mapa[i][j].terreno = ESTRADA;
                 fprintf(display, "terreno ESTRADA %d %d\n", i, j);
             }
-            else if (a == 2) {
+            else if (a <= 6) {
                 arena->mapa[i][j].terreno = MONTANHA;
                 fprintf(display, "terreno MONTANHA %d %d\n", i, j);
             }
-            else if (a == 3){
+            else if (a < 9){
                 arena->mapa[i][j].terreno = RIO;
                 fprintf(display, "terreno RIO %d %d\n", i, j);
             }
-            else {
+            else if (a == 9){
                 arena->mapa[i][j].terreno = LAVA;
                 fprintf(display, "terreno LAVA %d %d\n", i, j);
             }

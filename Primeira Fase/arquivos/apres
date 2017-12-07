@@ -136,19 +136,19 @@ class cell:
     def drawTerreno(s, tipo, i, j):
         if tipo == 'ESTRADA':
             s.terreno = 'ESTRADA'
-            s.cor = (100,100,100)
+            s.cor = (75,75,75)
 
         elif tipo == 'RIO':
             s.terreno = 'RIO'
-            s.cor = (0,0,150)
+            s.cor = (54,124,230)
 
         elif tipo == 'MONTANHA':
             s.terreno = 'MONTANHA'
-            s.cor = (100,100,0)
+            s.cor = (118,69,6)
 
         elif tipo == 'LAVA':
             s.terreno = 'LAVA'
-            s.cor = (250,0,0)
+            s.cor = (255,114,0)
 
         s.cx, s.cy = convert(i, j)
         s.pontos = (
@@ -163,7 +163,7 @@ class cell:
         atu()
 
     def drawCristal(s, i, j):
-        pg.draw.circle(scr, (0,100,250), (i+10,j-20), 5, 0)
+        pg.draw.circle(scr, (0,213,95), (i+10,j-20), 5, 0)
 
 
 # Construção da matriz que representa a arena
@@ -245,7 +245,7 @@ for line in fileinput.input():
     # nessa list (por estar if), dando o seguinte erro na exec:
     # ValueError: not enough values to unpack (expected 5, got 3)
     if r[0] == 'move':
-        pg.time.wait(500)
+        pg.time.wait(5000)
         r.remove(r[0])
         # Aqui optamos por remover o ri uma vez que vimos ser mais facil
         # apenas procurar pelo robo com a mesma posição do que queriamos
