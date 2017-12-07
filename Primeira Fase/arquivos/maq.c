@@ -377,9 +377,13 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 							arena->mapa[destino.r][destino.q].ocupado = m->equipe;
 
 							/* Se for um terreno 'ruim', o robo precisara de
-							// mais açoes para sair dele (veja maq.h)*/
+							// mais açoes para sair dele (veja maq.h), ou
+							// até mesmo leva dano */
 							if (arena->mapa[destino.r][destino.q].terreno == RIO)
 								m->no++;
+
+							else if (arena->mapa[destino.r][destino.q].terreno == LAVA)
+								m->hp--;
 
 							/* Atualiza a posicao da maquina */
 							m->xpos = destino.q;

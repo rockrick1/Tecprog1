@@ -49,6 +49,7 @@ typedef enum {
   ESTRADA,
   MONTANHA,
   RIO,
+  LAVA,
   BASE
 } Terreno;
 

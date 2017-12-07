@@ -15,7 +15,9 @@ l = 30
 L = 2*l/sqrt(3)
 
 # cria a janela
-scr = pg.display.set_mode((2*W*l+l,int(1.5*L*H+L/2)))
+# Trocamos 2 por 3 aqui para adaptar à nossa matriz em forma de losango,
+# e nao quadrada
+scr = pg.display.set_mode((3*W*l+l,int(1.5*L*H+L/2)))
 # só para simplificar, atualização da imagem
 atu = pg.display.update
 
@@ -29,7 +31,9 @@ def convert(i ,j):
     """
     Converte a coordenada (i,j) para a posição em pixels na janela
     """
-    x = (1 + i%2)*l + 2*j*l
+    # Aqui tambem tiramos o %2 para representar a matriz em losango ao inves
+    # de quadrada
+    x = (1 + i)*l + 2*j*l
     y = 1.5*i*L + L
     return x,y
 
@@ -101,6 +105,7 @@ class cell:
         """
         # Posição do centro
         s.cx, s.cy = convert(i,j)
+
         # Cor (pode ser passada para o construtor no futuro)
         s.cor = (200,200,200)
 
@@ -120,6 +125,9 @@ class cell:
         """
         pg.draw.polygon(scr, s.cor, s.pontos, 0)
         pg.draw.lines(scr, (0,0,0), True, s.pontos, 2)
+        atu()
+    def trocaCor(s, cor):
+        pg.draw.polygon(scr, cor, s.pontos, 0)
         atu()
 
 
@@ -173,6 +181,23 @@ for line in fileinput.input():
         bi, pi, pj = list(map(int, r))
         if 0 <= pi < W and 0 <= pj <= H and bi < len(base):
             base[bi].draw(pi,pj)
+
+    # Pinta as celulas da arena de acordo com os terrenos
+    if r[0] == 'terreno':
+        r.remove(r[0])
+        tipo = r[0]
+        r.remove(r[0])
+        ti, tj = list(map(int, r))
+        if 0 <= ti < W and 0 <= tj <= H:
+            if tipo == 'ESTRADA':
+                arena[i][j].trocaCor((100,100,100))
+            elif tipo == 'RIO':
+                arena[i][j].trocaCor((0,0,150))
+            elif tipo == 'MONTANHA':
+                arena[i][j].trocaCor((100,100,0))
+            elif tipo == 'LAVA':
+                arena[i][j].trocaCor((250,0,0))
+
 
     # linha de movimentação: começa com move
     # robô, corrdenadas de origem, coordenadas de destino

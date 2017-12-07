@@ -30,9 +30,9 @@ Arena *criaArena(int m, int n) {
     for (i = 0; i < m; i++)
         arena->mapa[i] = malloc(n * sizeof(Celula));
 
-    iniciaArena(arena);
     display = popen("./apres", "w");
     // display = fopen("./display", "w");
+    iniciaArena(arena);
     return arena;
 }
 
@@ -62,15 +62,22 @@ void iniciaArena(Arena *arena) {
             arena->mapa[i][j].ocupado = -1;
 
              /* definição dos terrenos */
-            int a = rand() % 4;
+            int a = rand() % 5;
             if (a == 0 || a == 1) {
                 arena->mapa[i][j].terreno = ESTRADA;
+                fprintf(display, "terreno ESTRADA %d %d\n", i, j);
             }
             else if (a == 2) {
                 arena->mapa[i][j].terreno = MONTANHA;
+                fprintf(display, "terreno MONTANHA %d %d\n", i, j);
             }
-            else { /* a == 3 */
+            else if (a == 3){
                 arena->mapa[i][j].terreno = RIO;
+                fprintf(display, "terreno RIO %d %d\n", i, j);
+            }
+            else {
+                arena->mapa[i][j].terreno = LAVA;
+                fprintf(display, "terreno LAVA %d %d\n", i, j);
             }
 
             /* define cristais */
