@@ -23,7 +23,7 @@ atu = pg.display.update
 
 
 # pinta o fundo da janela
-scr.fill((0,200,0))
+scr.fill((0,200,200))
 atu()
 pg.time.wait(500)
 
@@ -245,7 +245,7 @@ for line in fileinput.input():
     # nessa list (por estar if), dando o seguinte erro na exec:
     # ValueError: not enough values to unpack (expected 5, got 3)
     if r[0] == 'move':
-        pg.time.wait(5000)
+        pg.time.wait(100)
         r.remove(r[0])
         # Aqui optamos por remover o ri uma vez que vimos ser mais facil
         # apenas procurar pelo robo com a mesma posição do que queriamos
@@ -274,8 +274,11 @@ for line in fileinput.input():
             arena[oi][oj].draw()
 
     atu()
-
+# pg.mixer.init()
+# music = pg.mixer.music
+# music.load("sound.mp3")
+# music.play()
+# while pg.mixer.music.get_busy():
+#     pg.time.Clock().tick(10)
+pg.time.wait(500)
 pg.quit()
-# Local variables:
-# mode: python
-# End:

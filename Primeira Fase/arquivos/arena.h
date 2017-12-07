@@ -46,10 +46,9 @@ axial cube_to_axial(cube c);
 cube axial_to_cube(axial a);
 
 /* Devolve a posicao da matriz para qual o robô se moverá, na direção dir:
-        0
-      5   1
-      4   2
-        3
+    5  0
+   4    1
+    2  3
 E atualiza o display caso mover = 1*/
 axial move(Arena *arena, axial a, int dir, int mover);
 

@@ -94,7 +94,7 @@ int main() {
     insereRobos(1, 5, 5);
     printArena(arena);
     // for (int i = 0; i < 3; i++)
-        // atualiza(15);
+        // atualiza(15); // funcionando :D
     exec_maquina(maquinas[0][3], 100, arena);
     printArena(arena);
     destroiTudo();

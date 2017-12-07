@@ -121,10 +121,10 @@ cube axial_to_cube(axial a) {
     return c;
 }
 
-/* dir: 0
-      5   1
-      4   2
-        3
+/* dir:
+    5  0
+   4    1
+    2  3
 */
 axial move(Arena *arena, axial a, int dir, int mover) {
     int m = arena->m;

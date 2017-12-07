@@ -31,13 +31,29 @@ postado no paca (http://www.redblobgames.com/grids/hexagons/).
 inicialmente para podermos encaixar as funções da arena e usarmos funções de
 Maquina nas funções de arena.
 
-////////////////////////// TERCEIRA FASE ////////////////////////////////
+////////////////////////// TERCEIRA/QUARTA FASE ////////////////////////////////
 
-    Na terceira fase, foi feita a inicialização de forma completa dos robôs, 
-que agora contam com hp(saúde) e nível de ocupação. Também foi feita a 
-inicialização da Arena, definindo terrenos e adicionando cristais de forma
-aleatória. A Arena, os robôs e as bases quando criados mandam um comando para
-o programa de visualização(apres).
-    Não conseguimos implementar os cristais e os terrenos na parte gráfica.
-Também não colocamos um objeto para guardar a vizinhança nos robos, já que não
-vimos necessidade para isso no nosso projeto.
+    Como entregamos a terceira fase em um ponto em que nem a segunda fase
+estava pronta, iremos juntar os comentarios da terceira e da quarta fase aqui.
+
+    Para a terceira fase, foram adicionados diversos fprintf's ao longo
+das chamadas de sistema das maquinas virtuais, assim elas davam comandos
+para o modulo 'apres' para atualizar o display do jogo.
+    Sobre adaptações, vale comentar que nossa matriz era na forma de
+losango, e a do gubi, quadrada, portanto adaptamos a função 'convert' para
+retornar valores de forma a gerar a matriz em forma de losango. Ainda no
+modulo apres, foram adicionadas novos metodos e variaveis para a classe
+'cell', para que essa pudesse ter informações sobre o terreno e cristais
+e metodos novos para desenhá-los quando necessario.
+    Quanto aos comandos que podiam ser recebidos no arquivo de display,
+adicionamos o 'terreno tipo i j', que define uma celula com terreno do tipo
+fornecido (estrada, rio, etc.) e a desenhava. Tambem adicionamos o comando
+'cristal n i j' que definia o numero de cristais em uma celula de coordenadas
+i j e desenhava um cristal nela caso n>0.
+
+    Fora isso, admitimos que, no quesito de completar as chamadas
+de sistema nessa fase, não conseguimos implementar uma chamada de ataque para
+os robôs, por isso implementamos um terreno de lava, que danifica o robô quando
+este entra nesse terreno.
+
+*adicionar comentarios da 4a fase aqui*

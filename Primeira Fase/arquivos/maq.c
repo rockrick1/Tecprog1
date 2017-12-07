@@ -372,7 +372,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 						/* Se a pos solicitada nao estiver ocupada, move o robo */
 						if (arena->mapa[destino.r][destino.q].ocupado == -1) {
 							/* Manda o comando para desenhar o robo naquela
-							// posição */
+							// posição. Essa é a verdadeira chamada de sistema */
 							move(arena, atual, dir, 1);
 
 							arena->mapa[atual.r][atual.q].ocupado = -1;
@@ -386,7 +386,6 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 
 							else if (arena->mapa[destino.r][destino.q].terreno == LAVA)
 								m->hp--;
-							printf("meu hp %d\n", m->hp);
 
 							/* Atualiza a posicao da maquina */
 							m->xpos = destino.q;
@@ -405,7 +404,7 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 						if (m->cristais > 0) {
 							int c = arena->mapa[destino.r][destino.q].cristais;
 							/* Chama a função da arena de cristias */
-							insereCristais(arena, c + 1, destino.q, destino.r);
+							insereCristais(arena, c + 1, destino.r, destino.q);
 							m->cristais--;
 						}
 					}
