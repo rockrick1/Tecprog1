@@ -367,12 +367,14 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 					atual.q = x;
 					atual.r = y;
 
-					/* Pega a posição da matriz solicitada */
-
+					destino = move(arena, atual, dir, 0);
 					if (arg.val.ac == 0) { // Mover
-						destino = move(arena, atual, dir, 1);
 						/* Se a pos solicitada nao estiver ocupada, move o robo */
 						if (arena->mapa[destino.r][destino.q].ocupado == -1) {
+							/* Manda o comando para desenhar o robo naquela
+							// posição */
+							move(arena, atual, dir, 1);
+
 							arena->mapa[atual.r][atual.q].ocupado = -1;
 							arena->mapa[destino.r][destino.q].ocupado = m->equipe;
 
@@ -391,16 +393,12 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 						}
 					}
 					else if (arg.val.ac == 1) { // Recolher
-						destino = move(arena, atual, dir, 0);
-
 						if (arena->mapa[destino.r][destino.q].cristais > 0) {
 							arena->mapa[destino.r][destino.q].cristais--;
 							m->cristais++;
 						}
 					}
 					else if (arg.val.ac == 2) { // Depositar
-						destino = move(arena, atual, dir, 0);
-
 						if (m->cristais > 0) {
 							arena->mapa[destino.r][destino.q].cristais++;
 							m->cristais--;
