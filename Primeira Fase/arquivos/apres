@@ -109,6 +109,9 @@ class cell:
         # Cor (pode ser passada para o construtor no futuro)
         s.cor = (200,200,200)
 
+        # Tipo de terreno da celula, a ser definido depois
+        s.terreno = None
+
         # Vértices do hexágono
         s.pontos = (
             (s.cx,   s.cy-L),
@@ -126,8 +129,34 @@ class cell:
         pg.draw.polygon(scr, s.cor, s.pontos, 0)
         pg.draw.lines(scr, (0,0,0), True, s.pontos, 2)
         atu()
-    def trocaCor(s, cor):
-        pg.draw.polygon(scr, cor, s.pontos, 0)
+
+    def drawTerreno(s, tipo, i, j):
+        if tipo == 'ESTRADA':
+            s.terreno = 'ESTRADA'
+            s.cor = (100,100,100)
+
+        elif tipo == 'RIO':
+            s.terreno = 'RIO'
+            s.cor = (0,0,150)
+
+        elif tipo == 'MONTANHA':
+            s.terreno = 'MONTANHA'
+            s.cor = (100,100,0)
+
+        elif tipo == 'LAVA':
+            s.terreno = 'LAVA'
+            s.cor = (250,0,0)
+
+        s.cx, s.cy = convert(i, j)
+        s.pontos = (
+            (s.cx,   s.cy-L),
+            (s.cx+l, s.cy-L/2),
+            (s.cx+l, s.cy+L/2),
+            (s.cx,   s.cy+L),
+            (s.cx-l, s.cy+L/2),
+            (s.cx-l, s.cy-L/2),)
+        pg.draw.polygon(scr, s.cor, s.pontos, 0)
+        pg.draw.lines(scr, (0,0,0), True, s.pontos, 2)
         atu()
 
 
@@ -188,15 +217,7 @@ for line in fileinput.input():
         tipo = r[0]
         r.remove(r[0])
         ti, tj = list(map(int, r))
-        if 0 <= ti < W and 0 <= tj <= H:
-            if tipo == 'ESTRADA':
-                arena[i][j].trocaCor((100,100,100))
-            elif tipo == 'RIO':
-                arena[i][j].trocaCor((0,0,150))
-            elif tipo == 'MONTANHA':
-                arena[i][j].trocaCor((100,100,0))
-            elif tipo == 'LAVA':
-                arena[i][j].trocaCor((250,0,0))
+        arena[ti][tj].drawTerreno(tipo, ti, tj)
 
 
     # linha de movimentação: começa com move
@@ -235,7 +256,7 @@ for line in fileinput.input():
             arena[oi][oj].draw()
 
     # tempo de espera para atualização, apenas para testes
-    pg.time.wait(100)
+    pg.time.wait(5)
 
     atu()
 
