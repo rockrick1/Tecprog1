@@ -7,8 +7,8 @@ INSTR robo[] = {
 	{STS,  {ACAO, 0}}, // move
 	{PUSH, {DIRECAO, 2}},
 	{STS,  {ACAO, 0}}, // move
-	{PUSH, {DIRECAO, 2}},
-	{STS,  {ACAO, 1}}, // recolhe
+	// {PUSH, {DIRECAO, 2}},
+	// {STS,  {ACAO, 1}}, // recolhe
 	{PUSH, {DIRECAO, 2}},
 	{STS,  {ACAO, 0}}, // move
 	{PUSH, {DIRECAO, 1}},

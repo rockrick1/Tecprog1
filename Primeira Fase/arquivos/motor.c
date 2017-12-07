@@ -84,7 +84,7 @@ void insereRobos(int exercito, int x, int  y) {
 
 
 int main() {
-    srand(time(NULL));
+    // srand(time(NULL));
     inicia();
 
     arena = criaArena(15, 15);

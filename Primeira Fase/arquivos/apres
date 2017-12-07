@@ -112,6 +112,8 @@ class cell:
         # Tipo de terreno da celula, a ser definido depois
         s.terreno = None
 
+        s.cristais = False
+
         # Vértices do hexágono
         s.pontos = (
             (s.cx,   s.cy-L),
@@ -128,6 +130,7 @@ class cell:
         """
         pg.draw.polygon(scr, s.cor, s.pontos, 0)
         pg.draw.lines(scr, (0,0,0), True, s.pontos, 2)
+
         atu()
 
     def drawTerreno(s, tipo, i, j):
@@ -158,6 +161,9 @@ class cell:
         pg.draw.polygon(scr, s.cor, s.pontos, 0)
         pg.draw.lines(scr, (0,0,0), True, s.pontos, 2)
         atu()
+
+    def drawCristal(s, i, j):
+        pg.draw.circle(scr, (0,100,250), (i+10,j-20), 5, 0)
 
 
 # Construção da matriz que representa a arena
@@ -219,6 +225,18 @@ for line in fileinput.input():
         ti, tj = list(map(int, r))
         arena[ti][tj].drawTerreno(tipo, ti, tj)
 
+    if r[0] == 'cristal':
+        r.remove(r[0])
+        n, ci, cj = list(map(int,r))
+
+        if n == 0:
+            arena[ci][cj].draw()
+        else:
+            arena[ci][cj].cristais = True
+            i, j = map(int, (convert(ci, cj)))
+            arena[ci][cj].drawCristal(i, j)
+
+
     # linha de movimentação: começa com move
     # robô, corrdenadas de origem, coordenadas de destino
     # OBS: precisei fazer o metodo de comecar com string e
@@ -254,8 +272,6 @@ for line in fileinput.input():
     ### ou redesenhá-lo por meio de algum flag ou coisa do tipo)
         if 0 <= oi  < W and 0 <= oj < H:
             arena[oi][oj].draw()
-
-    # tempo de espera para atualização, apenas para testes
 
     atu()
 

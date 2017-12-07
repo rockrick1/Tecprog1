@@ -394,13 +394,17 @@ void exec_maquina(Maquina *m, int n, Arena *arena) {
 					}
 					else if (arg.val.ac == 1) { // Recolher
 						if (arena->mapa[destino.r][destino.q].cristais > 0) {
-							arena->mapa[destino.r][destino.q].cristais--;
+							int c = arena->mapa[destino.r][destino.q].cristais;
+							/* Chama a função da arena de cristias */
+							insereCristais(arena, c - 1, destino.r, destino.q);
 							m->cristais++;
 						}
 					}
 					else if (arg.val.ac == 2) { // Depositar
 						if (m->cristais > 0) {
-							arena->mapa[destino.r][destino.q].cristais++;
+							int c = arena->mapa[destino.r][destino.q].cristais;
+							/* Chama a função da arena de cristias */
+							insereCristais(arena, c + 1, destino.q, destino.r);
 							m->cristais--;
 						}
 					}

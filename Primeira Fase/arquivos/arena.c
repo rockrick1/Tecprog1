@@ -45,6 +45,7 @@ void insereBase(Arena *arena, int i, int j, int exercito) {
 
 /* Seta o numero de cristais em i j para n */
 void insereCristais(Arena *arena, int n, int i, int j){
+    fprintf(display, "cristal %d %d %d\n", n, i, j);
     arena->mapa[i][j].cristais = n;
 }
 
@@ -160,8 +161,13 @@ axial move(Arena *arena, axial a, int dir, int mover) {
         return a;
     }
     /* Atualiza o display, caso o robo realmente estja sendo movido */
-    if (mover)
+    if (mover) {
         fprintf(display, "move %d %d %d %d\n", a.q, a.r, temp.q, temp.r);
+        int c = arena->mapa[a.r][a.q].cristais;
+        /* Gambiarra monstra, desenha o cristal denovo se tiver um quando
+        // um robo sair da celula */
+        fprintf(display, "cristal %d %d %d\n", c, a.r, a.q);
+    }
 
     return temp;
 }
