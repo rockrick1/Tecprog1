@@ -38,9 +38,9 @@ Arena *criaArena(int m, int n) {
 
 
 void insereBase(Arena *arena, int i, int j, int exercito) {
-    arena->mapa[i][j].terreno = BASE;
-    arena->mapa[i][j].cristais = 0;
-    arena->mapa[i][j].ocupado = exercito;
+    arena->mapa[j][i].terreno = BASE;
+    arena->mapa[j][i].cristais = 0;
+    arena->mapa[j][i].ocupado = exercito;
 }
 
 /* Seta o numero de cristais em i j para n */

@@ -215,7 +215,7 @@ for line in fileinput.input():
         r.remove(r[0])
         bi, pi, pj = list(map(int, r))
         if 0 <= pi < W and 0 <= pj <= H and bi < len(base):
-            base[bi].draw(pi,pj)
+            base[bi].draw(pj,pi)
 
     # Pinta as celulas da arena de acordo com os terrenos
     if r[0] == 'terreno':

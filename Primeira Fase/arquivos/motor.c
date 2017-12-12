@@ -88,13 +88,13 @@ int main() {
     inicia();
 
     arena = criaArena(15, 15);
-    // arena->mapa[4][4].cristais = 1;
+    arena->mapa[0][5].cristais = 1; // cristal para teste
 
     insereRobos(0, 2, 2);
-    insereRobos(1, 5, 5);
+    insereRobos(1, 10, 5);
     printArena(arena);
     // for (int i = 0; i < 3; i++)
-        // atualiza(15); // funcionando :D
+        // atualiza(15);
     exec_maquina(maquinas[0][3], 100, arena);
     printArena(arena);
     destroiTudo();

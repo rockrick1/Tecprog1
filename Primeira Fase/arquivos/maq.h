@@ -22,7 +22,7 @@ typedef struct {
   int xpos; /* Coordenadas da posição do robô */
   int ypos; /* Coordenadas da posição do robô */
   int cristais; /* Quantidade de cristais carregados pelo robô */
-  short int vivo;
+  short int vivo; /* 1 se esta vivo, 0 c.c. */
 } Maquina;
 
 /* Inicia um maquina com as posiçoes iniciais */
